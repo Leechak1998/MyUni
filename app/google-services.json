@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "792470053777",
+    "project_id": "my-uni-project-fc56b",
+    "storage_bucket": "my-uni-project-fc56b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792470053777:android:c60877f36b0f515c647030",
+        "android_client_info": {
+          "package_name": "com.example.myuni"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792470053777-ac4e1198pkq17lt7cni9br0n2l286him.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq19B7GWJk0_avrzlbFjfQLOWNSKQeSP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792470053777-ac4e1198pkq17lt7cni9br0n2l286him.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
