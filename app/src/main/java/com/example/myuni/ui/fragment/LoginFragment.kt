@@ -30,7 +30,7 @@ class LoginFragment : Fragment() {
         val tv_response: TextView = root.findViewById(R.id.tv_response)
         initData()
 
-//        test()
+        test()
 
         btn_login.setOnClickListener {
             Thread{
@@ -49,8 +49,8 @@ class LoginFragment : Fragment() {
         params.put("name", "testUser")
     }
 
-//    fun test(){
-//        var databaseFireReference = firebasedatabse.getReference("usersList")
-//        println("--------$databaseFireReference-----")
-//    }
+    fun test(){
+        var databaseFireReference = firebasedatabse.getReference("usersList")
+        println("--------$databaseFireReference-----")
+    }
 }
