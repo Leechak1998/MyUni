@@ -37,9 +37,11 @@ class ChatFragment : Fragment() {
         chatViewModel.initChatList()
 
         chatViewModel.messageList.observe(viewLifecycleOwner, Observer {
+            println("==============================================")
             for (i in 0 until it.size){
                 println("-- " + it[i].content + " -- " + it[i].time)
             }
+            println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             msgList.clear()
             msgList.addAll(it)
             adapter.notifyDataSetChanged()

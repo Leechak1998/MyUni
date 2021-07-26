@@ -70,18 +70,13 @@ class ChatViewModel : ViewModel(){
                     val t  = object : GenericTypeIndicator<HashMap<String, Message>>() {}
                     var value = dataSnapshot.getValue(t)
 
-                    _messageList.value?.clear()
-                    //循环添加新的消息
-                    for (key in value!!.keys){
-                        val m: Message? = value[key]
-                        _messageList.value = _messageList.value!!.plus(m) as ArrayList<Message>
+                    //遍历map,只添加最新的消息
+                    for ((count, key) in value!!.keys.withIndex()){
+                        if (count == value.size){
+                            val m: Message? = value[key]
+                            _messageList.value = _messageList.value!!.plus(m) as ArrayList<Message>
+                        }
                     }
-
-//                    for (i in value.indices){
-////                        println("------$i----${value[i].name}")
-//                        _messageList.value = _messageList.value!!.plus(value) as ArrayList<Message>
-//                    }
-
                 }else{
                     println("none data...")
                 }
