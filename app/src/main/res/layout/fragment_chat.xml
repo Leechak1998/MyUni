@@ -12,14 +12,6 @@
             name="sendMes"
             type="com.example.myuni.ui.fragment.ChatFragment" />
 
-<!--        <variable-->
-<!--            name="newMessage"-->
-<!--            type="com.example.myuni.viewmodel.ChatViewModel" />-->
-
-<!--        <variable-->
-<!--            name="message"-->
-<!--            type="com.example.myuni.model.Message" />-->
-
     </data>
 
     <FrameLayout

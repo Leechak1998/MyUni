@@ -9,11 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myuni.R
-import com.example.myuni.utils.ObserverListener
-import com.example.myuni.utils.ObserverManager
 import com.example.myuni.viewmodel.MeViewModel
 
-class MeFragment : Fragment(), ObserverListener {
+class MeFragment : Fragment() {
 
     private lateinit var meViewModel: MeViewModel
     lateinit var textView: TextView
@@ -32,13 +30,7 @@ class MeFragment : Fragment(), ObserverListener {
             textView.text = it
         })
 
-        ObserverManager.instance.add(this)
-
         return root
     }
 
-    override fun observerUpData(count: String) {
-        meViewModel.changeData(count)
-        println("----$count----")
-    }
 }

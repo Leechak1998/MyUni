@@ -10,9 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myuni.R
-import com.example.myuni.utils.ObserverManager
 import com.example.myuni.viewmodel.HomeViewModel
-import com.example.myuni.utils.ObserverListener as ObserverListener
 
 class HomeFragment : Fragment() {
 
@@ -33,7 +31,6 @@ class HomeFragment : Fragment() {
 
 
         textView.setOnClickListener {
-            ObserverManager.instance.notifyObserver("this is a test!")
             println("click home")
         }
 
