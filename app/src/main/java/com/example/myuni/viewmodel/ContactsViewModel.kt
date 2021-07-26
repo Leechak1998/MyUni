@@ -2,6 +2,7 @@ package com.example.myuni.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.myuni.R
 import com.example.myuni.model.Contacts
 import com.example.myuni.utils.encode
@@ -25,17 +26,17 @@ class ContactsViewModel : ViewModel() {
 
     val contactsList: MutableLiveData<ArrayList<Contacts>> = _contactsList
 
-    fun initContactsList(){
-        dbRef = database.getReference("contactsList").child("UID:0000000")//之后动态获取用户的邮箱
+    fun initContactsList(email: String){
+        dbRef = database.getReference("contactsList").child(email)//之后动态获取用户的邮箱
 
-        //改进：从数据库中获取
-        var map: HashMap<String, Any> = HashMap<String, Any>()
-        val c1 = Contacts("jackson", R.drawable.profile_default, "rl1r20@soton.ac.uk","")
-        val c2 = Contacts("ellen", R.drawable.profile_default, "yh12n20@soton.ac.uk","")
-
-        map[encode.EncodeString(c1.email!!)] = c1
-        map[encode.EncodeString(c2.email!!)] = c2
-        dbRef.setValue(map)
+//        //改进：从数据库中获取
+//        var map: HashMap<String, Any> = HashMap<String, Any>()
+//        val c1 = Contacts("jackson", R.drawable.profile_default, "rl1r20@soton.ac.uk","")
+//        val c2 = Contacts("ellen", R.drawable.profile_default, "yh12n20@soton.ac.uk","")
+//
+//        map[encode.EncodeString(c1.email!!)] = c1
+//        map[encode.EncodeString(c2.email!!)] = c2
+//        dbRef.setValue(map)
 
         dbRef.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {

@@ -18,9 +18,9 @@ class ChatViewModel : ViewModel(){
     private lateinit var dbRef: DatabaseReference
     private var database = FirebaseDatabase.getInstance()
 
-    private val _isHide = MutableLiveData<Boolean>().apply {
-        value = false
-    }
+//    private val _isHide = MutableLiveData<Boolean>().apply {
+//        value = false
+//    }
 
     private val _messageList = MutableLiveData<ArrayList<Message>>().apply {
         var m: ArrayList<Message> = object : ArrayList<Message>(){
@@ -34,12 +34,12 @@ class ChatViewModel : ViewModel(){
         value = m
     }
 
-    val isHide: LiveData<Boolean> = _isHide
+//    val isHide: LiveData<Boolean> = _isHide
     val messageList: LiveData<ArrayList<Message>> = _messageList
 
-    fun switchNavBarStatus(){
-        _isHide.value = _isHide.value != true
-    }
+//    fun switchNavBarStatus(){
+//        _isHide.value = _isHide.value != true
+//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendMessage(content: String){
@@ -57,11 +57,8 @@ class ChatViewModel : ViewModel(){
         dbRef = database.getReference("conversationList").child(encode.EncodeString("rl1r20@soton.ac.uk")).child(encode.EncodeString("yh12n20@soton.ac.uk"))//之后动态获取用户的邮箱
 
         var map: HashMap<String, Message> = HashMap()
-//        var list = ArrayList<Message>()
         val m = Message("hi ellen", Message.TYPE_SEND, timeUtils.getCurrentTime(LocalDateTime.now()))
-//        list.add(m)
         map[m.time.toString()] = m
-//        dbRef.setValue(list)
         dbRef.setValue(map)
 
         dbRef.addValueEventListener(object : ValueEventListener {

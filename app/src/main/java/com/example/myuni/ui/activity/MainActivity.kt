@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.myuni.R
 import com.example.myuni.viewmodel.ChatViewModel
 import com.example.myuni.viewmodel.ContactsViewModel
+import com.example.myuni.viewmodel.UtilViewModel
 
 class MainActivity : AppCompatActivity(){
 
@@ -36,15 +37,13 @@ class MainActivity : AppCompatActivity(){
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val chatViewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
+        val utilViewModel = ViewModelProvider(this).get(UtilViewModel::class.java)
 
-        chatViewModel.isHide.observe(this, Observer { it ->
+        utilViewModel.isHide.observe(this, Observer { it ->
             if (it){
                 navView.visibility = View.INVISIBLE
-//                println("Invisible")
             } else {
                 navView.visibility = View.VISIBLE
-//                println("Visible")
             }
         })
 

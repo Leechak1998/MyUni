@@ -15,15 +15,14 @@ import com.example.myuni.adapter.MessageAdapter
 import com.example.myuni.databinding.FragmentChatBinding
 import com.example.myuni.model.Message
 import com.example.myuni.viewmodel.ChatViewModel
-import java.text.ParsePosition
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.myuni.viewmodel.UtilViewModel
 import kotlin.collections.ArrayList
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
     private val msgList = ArrayList<Message>()
     private lateinit var chatViewModel: ChatViewModel
+    private lateinit var utilViewModel: UtilViewModel
     private lateinit var adapter: MessageAdapter
 //    private val connect = Connect()
 
@@ -32,21 +31,20 @@ class ChatFragment : Fragment() {
 //        root = inflater.inflate(R.layout.fragment_chat, container, false)
         binding = DataBindingUtil.inflate<FragmentChatBinding>(inflater, R.layout.fragment_chat, container, false)
 
+        utilViewModel = ViewModelProvider(requireActivity()).get(UtilViewModel::class.java)
+        utilViewModel.switchNavBarStatus()
+
         chatViewModel = ViewModelProvider(requireActivity()).get(ChatViewModel::class.java)
-        chatViewModel.switchNavBarStatus()
         chatViewModel.initChatList()
 
         chatViewModel.messageList.observe(viewLifecycleOwner, Observer {
-            println("==============================================")
             for (i in 0 until it.size){
                 println("-- " + it[i].content + " -- " + it[i].time)
             }
-            println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             msgList.clear()
             msgList.addAll(it)
             adapter.notifyDataSetChanged()
             binding.lvChat.setSelection(it.size)
-//            binding.etInput.setText("")
             binding.etInput.text.clear()
         })
 
@@ -59,7 +57,7 @@ class ChatFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        chatViewModel.switchNavBarStatus()
+        utilViewModel.switchNavBarStatus()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -68,11 +66,6 @@ class ChatFragment : Fragment() {
         if (content.isNotEmpty()){
             chatViewModel.sendMessage(content)
         }
-    }
-
-
-    fun transToString(time:Long):String{
-        return SimpleDateFormat("YYYY-MM-DD-hh-mm-ss").format(time)
     }
 
 }

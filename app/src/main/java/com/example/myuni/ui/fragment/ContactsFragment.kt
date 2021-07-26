@@ -13,11 +13,12 @@ import com.example.myuni.adapter.ContactsAdapter
 import com.example.myuni.databinding.FragmentContactsBinding
 import com.example.myuni.model.Contacts
 import com.example.myuni.viewmodel.ContactsViewModel
+import com.example.myuni.viewmodel.MeViewModel
 import android.app.ActionBar as ActionBar
 
 class ContactsFragment : Fragment() {
-
     private lateinit var contactsViewModel: ContactsViewModel
+    private lateinit var meViewModel: MeViewModel
     private var contactsList = ArrayList<Contacts>()
     private lateinit var adapter: ContactsAdapter
 
@@ -48,7 +49,8 @@ class ContactsFragment : Fragment() {
         )
 
         contactsViewModel = ViewModelProvider(this).get(ContactsViewModel::class.java)
-
+        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+        
         contactsViewModel.contactsList.observe(viewLifecycleOwner, Observer { it ->
             contactsList.clear()
             contactsList.addAll(it)
@@ -63,7 +65,7 @@ class ContactsFragment : Fragment() {
         adapter = ContactsAdapter(requireContext(), R.layout.contacts_item, contactsList);
         binding.adapter = adapter;
 
-        contactsViewModel.initContactsList()
+        contactsViewModel.initContactsList(meViewModel.getLoginUser()!!.email!!)
 
         binding.lvContacts.setOnItemClickListener { _,_ ,position,_ ->
             NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_contacts_to_navigation_chat)

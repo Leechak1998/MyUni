@@ -25,10 +25,10 @@ class MeFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_me, container, false)
         textView = root.findViewById(R.id.text_notifications)
 
-        meViewModel.text.observe(viewLifecycleOwner, Observer {
-            println("it.value = ${it}")
-            textView.text = it
-        })
+//        meViewModel.text.observe(viewLifecycleOwner, Observer {
+//            println("it.value = ${it}")
+//            textView.text = it
+//        })
 
         return root
     }

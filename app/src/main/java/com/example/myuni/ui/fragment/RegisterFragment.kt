@@ -15,15 +15,18 @@ import com.example.myuni.databinding.FragmentRegisterBinding
 import com.example.myuni.model.Contacts
 import com.example.myuni.viewmodel.ContactsViewModel
 import com.example.myuni.viewmodel.MeViewModel
+import com.example.myuni.viewmodel.UtilViewModel
 
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var meViewModel: MeViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentRegisterBinding>(inflater, R.layout.fragment_register, container, false)
+        binding = DataBindingUtil.inflate<FragmentRegisterBinding>(inflater, R.layout.fragment_register, container, false)
+        binding.register = this
         meViewModel = ViewModelProvider(this).get(MeViewModel::class.java)
         return binding.root
     }
@@ -42,4 +45,5 @@ class RegisterFragment : Fragment() {
     fun cancel(){
         NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_register_to_navigation_login)
     }
+
 }
