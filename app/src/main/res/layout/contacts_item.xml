@@ -29,7 +29,6 @@
             android:layout_marginLeft="15dp"
             android:padding="5dp"
             android:text="@{contacts.name}" />
-<!--android:text="User name"-->
 
     </LinearLayout>
 </layout>

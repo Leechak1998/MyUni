@@ -1,7 +1,5 @@
 package com.example.myuni.model
 
-import java.util.*
-
 class Message constructor(content: String?, type: Int?, time: String?){
     companion object{
         val TYPE_RECEIVED: Int = 0

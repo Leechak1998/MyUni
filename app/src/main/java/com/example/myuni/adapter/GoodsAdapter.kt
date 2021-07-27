@@ -8,12 +8,12 @@ import android.widget.BaseAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.myuni.BR
-import com.example.myuni.model.Contacts
+import com.example.myuni.model.Goods
 
-class ContactsAdapter(_context: Context, _resource: Int, _data: List<Contacts>) : BaseAdapter() {
+class GoodsAdapter(_context: Context, _resource: Int, _data: List<Goods>) : BaseAdapter() {
     private val context: Context = _context
     private val resourceId: Int = _resource
-    private val data: List<Contacts> = _data
+    private val data: List<Goods> = _data
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val con=getItem(position)
@@ -23,8 +23,8 @@ class ContactsAdapter(_context: Context, _resource: Int, _data: List<Contacts>) 
         } else {
             binding = DataBindingUtil.getBinding(convertView)
         }
-        //binding!!.setVariable(variableId,con)
-        binding!!.setVariable(BR.contacts, con)
+
+        binding!!.setVariable(BR.goods, con)
 
         return binding.root;
     }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_login">
+    app:startDestination="@+id/navigation_shop">
 
     <fragment
         android:id="@+id/navigation_login"
@@ -68,4 +68,25 @@
         android:name="com.example.myuni.ui.fragment.ChatFragment"
         android:label="@string/title_chat"
         tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/navigation_shop"
+        android:name="com.example.myuni.ui.fragment.ShopFragment"
+        android:label="Shop"
+        tools:layout="@layout/fragment_shop" >
+        <action
+            android:id="@+id/action_navigation_shop_to_navigation_sell"
+            app:destination="@id/navigation_sell" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_sell"
+        android:name="com.example.myuni.ui.fragment.SellFragment"
+        android:label="Sell"
+        tools:layout="@layout/fragment_sell" >
+        <action
+            android:id="@+id/action_navigation_sell_to_navigation_shop"
+            app:destination="@id/navigation_shop" />
+    </fragment>
+
 </navigation>

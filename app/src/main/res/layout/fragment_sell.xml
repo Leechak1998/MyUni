@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="sell"
+            type="com.example.myuni.ui.fragment.SellFragment" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.fragment.SellFragment">
+
+        <EditText
+            android:id="@+id/tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:hint="Please give a description of your products"
+            android:textSize="20dp"
+            android:gravity="top"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:padding="50dp">
+
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="150dp"
+                android:layout_height="150dp"/>
+
+            <Space
+                android:id="@+id/spacer"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
+                android:layout_toRightOf="@id/iv_photo"/>
+
+            <ImageButton
+                android:id="@+id/img_btn_takePic"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_toRightOf="@id/spacer"
+                android:src="@drawable/ic_addpic_add_50dp"/>
+
+            <ImageView
+                android:id="@+id/iv_photo2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_toRightOf="@id/spacer"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Price:"
+                android:textSize="25dp"
+                android:gravity="center_vertical"/>
+
+            <EditText
+                android:id="@+id/et_price"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="0.00"
+                android:textSize="25dp"
+                android:digits="123456789."
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</layout>
