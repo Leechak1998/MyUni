@@ -14,29 +14,18 @@ class ContactsViewModel : ViewModel() {
     private var database = FirebaseDatabase.getInstance()
 
     private val _contactsList = MutableLiveData<ArrayList<Contacts>>().apply {
-        var c: ArrayList<Contacts> = object : ArrayList<Contacts>(){
-            init {
-                val c = Contacts("test", R.drawable.profile_default, "test@soton.ac.uk","")
-                add(c)
-            }
-        }
-        value = c
+        value = object : ArrayList<Contacts>(){}
     }
-
 
     val contactsList: MutableLiveData<ArrayList<Contacts>> = _contactsList
 
-    fun initContactsList(email: String){
-        dbRef = database.getReference("contactsList").child(email)//之后动态获取用户的邮箱
+    private var _newUser = MutableLiveData<ArrayList<Contacts>>().apply {
+        value = object : ArrayList<Contacts>(){}
+    }
+    val newUser = _newUser
 
-//        //改进：从数据库中获取
-//        var map: HashMap<String, Any> = HashMap<String, Any>()
-//        val c1 = Contacts("jackson", R.drawable.profile_default, "rl1r20@soton.ac.uk","")
-//        val c2 = Contacts("ellen", R.drawable.profile_default, "yh12n20@soton.ac.uk","")
-//
-//        map[encode.EncodeString(c1.email!!)] = c1
-//        map[encode.EncodeString(c2.email!!)] = c2
-//        dbRef.setValue(map)
+    fun initContactsList(email: String){
+        dbRef = database.getReference("contactsList").child(encode.EncodeString(email))//之后动态获取用户的邮箱
 
         dbRef.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -52,9 +41,9 @@ class ContactsViewModel : ViewModel() {
                     _contactsList.value?.clear()
 
                     for (key in value!!.keys){
-                        println("---$key------${value[key]}")
+//                        println("---$key------${value[key]}")
                         val c: Contacts? = value[key]
-                        _contactsList.value = _contactsList.value!!.plus(c) as ArrayList<Contacts>
+                        _contactsList.value = _contactsList.value?.plus(c) as ArrayList<Contacts>
                     }
                 }
             }
@@ -65,13 +54,41 @@ class ContactsViewModel : ViewModel() {
     }
 
     //改进：增加前先判断是否存在该用户。
-    fun addContact(/*contacts: Contacts*/){
-        var map: HashMap<String, Any> = HashMap<String, Any>()
-        val c = Contacts("test2", R.drawable.profile_default, "test2@soton.ac.uk","")
-        _contactsList.value = _contactsList.value?.plus(c) as ArrayList<Contacts>
-        map["test2"] = c
-        dbRef.updateChildren(map)
+    fun searchContacts(email: String){
+        dbRef = database.getReference("usersList")
+        dbRef.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
 
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val t = object : GenericTypeIndicator<HashMap<String, Contacts>>() {}
+                    var value = snapshot.getValue(t)
+
+                    for (key in value!!.keys){
+                        if (email == value[key]!!.email){
+                            _newUser.value?.clear()
+                            val c = Contacts(value[key]!!.name as String, R.drawable.profile_default, value[key]!!.email as String, value[key]!!.password as String)
+                            _newUser.value = _newUser.value?.plus(c) as ArrayList<Contacts>
+                            break
+                        }
+                    }
+                }
+            }
+
+
+        })
+
+    }
+
+    fun addContacts(userEmail: String){
+        dbRef = database.getReference("contactsList").child(encode.EncodeString(userEmail))
+        var map: HashMap<String, Any> = HashMap<String, Any>()
+        val c : Contacts = _newUser.value?.get(0)!!
+        _contactsList.value = _contactsList.value?.plus(c) as ArrayList<Contacts>
+        map[encode.EncodeString(c.email!!)] = c
+        dbRef.updateChildren(map)
     }
 
 }

@@ -59,7 +59,7 @@ class MeViewModel : ViewModel() {
                     if (passWord == value!!["password"]){
                         println("密码正确")
                         //头像之后再做处理，先给默认头像
-                        loginUser = Contacts(value["email"] as String, R.drawable.profile_default, value["name"] as String, value["password"] as String)
+                        loginUser = Contacts(value["name"] as String, R.drawable.profile_default, value["email"] as String, value["password"] as String)
                         _text.value = 1
                     } else{
                         _text.value = -1

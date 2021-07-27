@@ -33,10 +33,7 @@ class ContactsFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //添加新用户
-//        val c = Contacts("jack", R.drawable.profile_default,"test@qq.com")
-//        contactsViewModel.addContact()
-        contactsViewModel.addContact()
+        NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_contacts_to_navigation_addUser)
         return super.onOptionsItemSelected(item)
     }
 
@@ -56,10 +53,10 @@ class ContactsFragment : Fragment() {
             contactsList.addAll(it)
             adapter.notifyDataSetChanged()
             binding.lvContacts.setSelection(it.size)
-//            println("更新用户列表")
-//            for (i in contactsList.indices){
-//                println("------$i----${contactsList[i].name}")
-//            }
+            println("更新用户列表")
+            for (i in contactsList.indices){
+                println("------$i----${contactsList[i].name}")
+            }
         })
 
         adapter = ContactsAdapter(requireContext(), R.layout.contacts_item, contactsList);

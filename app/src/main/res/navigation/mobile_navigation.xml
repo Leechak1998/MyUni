@@ -42,6 +42,19 @@
         <action
             android:id="@+id/action_navigation_contacts_to_navigation_chat"
             app:destination="@id/navigation_chat" />
+        <action
+            android:id="@+id/action_navigation_contacts_to_navigation_addUser"
+            app:destination="@id/navigation_addUser" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_addUser"
+        android:name="com.example.myuni.ui.fragment.AddUserFragment"
+        android:label="Add new user"
+        tools:layout="@layout/fragment_add_user" >
+        <action
+            android:id="@+id/action_navigation_addUser_to_navigation_contacts"
+            app:destination="@id/navigation_contacts" />
     </fragment>
 
     <fragment
