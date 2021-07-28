@@ -6,45 +6,41 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myuni.model.Message
-import com.example.myuni.utils.encode
-import com.example.myuni.utils.timeUtils
+import com.example.myuni.utils.Encode
+import com.example.myuni.utils.TimeUtils
 import com.google.firebase.database.*
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class ChatViewModel : ViewModel(){
     private lateinit var dbRef: DatabaseReference
     private var database = FirebaseDatabase.getInstance()
 
-//    private val _isHide = MutableLiveData<Boolean>().apply {
-//        value = false
+
+//    private val _messageList = MutableLiveData<ArrayList<Message>>().apply {
+//        var m: ArrayList<Message> = object : ArrayList<Message>(){
+//            init {
+//                val msg1 = Message("Hello, how are you?", Message.TYPE_SEND, LocalDateTime.now().toString())
+//                add(msg1)
+//                val msg2 = Message("Fine, thank you.", Message.TYPE_RECEIVED, LocalDateTime.now().toString())
+//                add(msg2)
+//            }
+//        }
+//        value = m
 //    }
 
     private val _messageList = MutableLiveData<ArrayList<Message>>().apply {
-        var m: ArrayList<Message> = object : ArrayList<Message>(){
-            init {
-                val msg1 = Message("Hello, how are you?", Message.TYPE_SEND, LocalDateTime.now().toString())
-                add(msg1)
-                val msg2 = Message("Fine, thank you.", Message.TYPE_RECEIVED, LocalDateTime.now().toString())
-                add(msg2)
-            }
-        }
-        value = m
+        value = object : ArrayList<Message>(){}
     }
 
-//    val isHide: LiveData<Boolean> = _isHide
     val messageList: LiveData<ArrayList<Message>> = _messageList
 
-//    fun switchNavBarStatus(){
-//        _isHide.value = _isHide.value != true
-//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendMessage(content: String){
         var map: HashMap<String, Any> = HashMap<String, Any>()
-        val message = Message(content, Message.TYPE_SEND, timeUtils.getCurrentTime(LocalDateTime.now()))
+        val message = Message(content, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
         _messageList.value = _messageList.value!!.plus(message) as ArrayList<Message>
         map[message.time.toString()] = message
         dbRef.updateChildren(map)
@@ -54,10 +50,10 @@ class ChatViewModel : ViewModel(){
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun initChatList(){
-        dbRef = database.getReference("conversationList").child(encode.EncodeString("rl1r20@soton.ac.uk")).child(encode.EncodeString("yh12n20@soton.ac.uk"))//之后动态获取用户的邮箱
+        dbRef = database.getReference("conversationList").child(Encode.EncodeString("rl1r20@soton.ac.uk")).child(Encode.EncodeString("yh12n20@soton.ac.uk"))//之后动态获取用户的邮箱
 
         var map: HashMap<String, Message> = HashMap()
-        val m = Message("hi ellen", Message.TYPE_SEND, timeUtils.getCurrentTime(LocalDateTime.now()))
+        val m = Message("hi ellen", Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
         map[m.time.toString()] = m
         dbRef.setValue(map)
 

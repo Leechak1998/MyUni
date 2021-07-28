@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
             name="goods"
             type="com.example.myuni.model.Goods" />
+
     </data>
 
     <LinearLayout
@@ -19,10 +21,10 @@
             android:layout_weight="4">
 
             <ImageView
+                android:id="@+id/iv_goods_profile"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@{goods.image.intValue()}" />
-
+                app:setImageBitmap="@{goods.image1}"/>
         </FrameLayout>
 
         <RelativeLayout
@@ -36,6 +38,8 @@
                 android:layout_height="wrap_content"
                 android:text="@{goods.name}"
                 android:textSize="25dp"
+                android:lines="1"
+                android:ellipsize="end"
                 android:padding="10dp"/>
 
             <TextView
@@ -46,7 +50,9 @@
                 android:text="@{goods.description}"
                 android:textSize="20dp"
                 android:textColor="@color/gray"
-                android:padding="10dp"/>
+                android:lines="1"
+                android:ellipsize="end"
+                android:padding="10dp" />
 
             <TextView
                 android:id="@+id/tv_price"
@@ -56,10 +62,11 @@
                 android:text="@{goods.price}"
                 android:textSize="25dp"
                 android:textColor="@color/red"
+                android:lines="1"
+                android:ellipsize="end"
                 android:padding="10dp"/>
 
         </RelativeLayout>
-
 
     </LinearLayout>
 </layout>

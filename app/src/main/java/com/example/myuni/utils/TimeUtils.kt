@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class timeUtils{
+class TimeUtils{
     companion object{
         @RequiresApi(Build.VERSION_CODES.O)
         fun getCurrentTime(time: LocalDateTime): String{

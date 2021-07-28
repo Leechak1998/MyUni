@@ -16,12 +16,22 @@
         tools:context=".ui.fragment.SellFragment">
 
         <EditText
-            android:id="@+id/tv_description"
+            android:id="@+id/et_tittle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:padding="10dp"
+            android:hint="Please enter product name here"
+            android:textSize="20dp"
+            android:gravity="top"/>
+
+        <EditText
+            android:id="@+id/et_description"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:padding="10dp"
-            android:hint="Please give a description of your products"
+            android:hint="Please give a description of your products here"
             android:textSize="20dp"
             android:gravity="top"/>
 
@@ -32,18 +42,24 @@
             android:padding="50dp">
 
             <ImageView
-                android:id="@+id/iv_photo"
+                android:id="@+id/iv_photo1"
                 android:layout_width="150dp"
                 android:layout_height="150dp"/>
 
+            <ImageButton
+                android:id="@+id/img_btn_takePic1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_addpic_add_50dp"/>
+
             <Space
                 android:id="@+id/spacer"
-                android:layout_width="50dp"
+                android:layout_width="20dp"
                 android:layout_height="0dp"
-                android:layout_toRightOf="@id/iv_photo"/>
+                android:layout_toRightOf="@id/iv_photo1"/>
 
             <ImageButton
-                android:id="@+id/img_btn_takePic"
+                android:id="@+id/img_btn_takePic2"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_toRightOf="@id/spacer"
@@ -74,7 +90,7 @@
                 android:id="@+id/et_price"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="0.00"
+                android:hint="0.00"
                 android:textSize="25dp"
                 android:digits="123456789."
                 android:layout_alignParentRight="true"/>

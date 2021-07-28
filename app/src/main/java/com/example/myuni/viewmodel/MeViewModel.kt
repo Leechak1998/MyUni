@@ -5,13 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myuni.R
 import com.example.myuni.model.Contacts
-import com.example.myuni.model.Message
-import com.example.myuni.utils.encode
-import com.google.android.gms.tasks.Task
+import com.example.myuni.utils.Encode
 import com.google.firebase.database.*
-import kotlinx.coroutines.delay
-import java.sql.Time
-import java.util.*
 import kotlin.collections.HashMap
 
 class MeViewModel : ViewModel() {
@@ -28,24 +23,24 @@ class MeViewModel : ViewModel() {
         //初始化用户列表
         dbRef = database.getReference("usersList")
         var map: HashMap<String, Any> = HashMap()
-        map[encode.EncodeString(contact.email!!)] = contact
+        map[Encode.EncodeString(contact.email!!)] = contact
         dbRef.updateChildren(map)
 
         //初始化注册联系列表
-        dbRef = database.getReference("contactsList").child(encode.EncodeString(contact.email!!))
+        dbRef = database.getReference("contactsList").child(Encode.EncodeString(contact.email!!))
         map.clear()
-        map[encode.EncodeString(contact.email!!)] = contact
+        map[Encode.EncodeString(contact.email!!)] = contact
         dbRef.updateChildren(map)
 
         //初始化注册对话列表
-        dbRef = database.getReference("conversationList").child(encode.EncodeString(contact.email!!))
+        dbRef = database.getReference("conversationList").child(Encode.EncodeString(contact.email!!))
         map.clear()
-        map[encode.EncodeString(contact.email!!)] = contact
+        map[Encode.EncodeString(contact.email!!)] = contact
         dbRef.updateChildren(map)
     }
 
     fun login(email: String, passWord: String){
-        dbRef = database.getReference("usersList").child(encode.EncodeString(email))
+        dbRef = database.getReference("usersList").child(Encode.EncodeString(email))
 
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {

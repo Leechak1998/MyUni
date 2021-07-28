@@ -1,8 +1,8 @@
 package com.example.myuni.utils
 
-class encode {
+public class Encode {
     companion object {
-        fun EncodeString(string: String) : String{
+        public fun EncodeString(string: String) : String{
             return string.replace(".", ",")
         }
 
