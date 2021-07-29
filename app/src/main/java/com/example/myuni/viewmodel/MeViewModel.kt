@@ -1,13 +1,18 @@
 package com.example.myuni.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myuni.R
 import com.example.myuni.model.Contacts
+import com.example.myuni.model.Message
 import com.example.myuni.ui.activity.MainActivity
 import com.example.myuni.utils.Encode
+import com.example.myuni.utils.TimeUtils
 import com.google.firebase.database.*
+import java.time.LocalDateTime
 import kotlin.collections.HashMap
 
 class MeViewModel : ViewModel() {
@@ -20,6 +25,7 @@ class MeViewModel : ViewModel() {
     }
     val isLogin: LiveData<Int> = _isLogin
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun registerNewUser(contact: Contacts){
         //初始化用户列表
         dbRef = database.getReference("usersList")
@@ -33,11 +39,15 @@ class MeViewModel : ViewModel() {
         map[Encode.EncodeString(contact.email!!)] = contact
         dbRef.updateChildren(map)
 
+
+        //map[Encode.EncodeString(message.time!!)] = message
         //初始化注册对话列表
-        dbRef = database.getReference("conversationList").child(Encode.EncodeString(contact.email!!))
-        map.clear()
-        map[Encode.EncodeString(contact.email!!)] = contact
-        dbRef.updateChildren(map)
+        var map1: HashMap<String, Any> = HashMap<String, Any>()
+        val message = Message(null, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
+        //val message = Message()
+        dbRef = database.getReference("conversationList").child(Encode.EncodeString(contact.email!!)).child(Encode.EncodeString(contact.email!!))
+        map1[Encode.EncodeString(message.time!!)] = message
+        dbRef.setValue(map1)
     }
 
     fun login(email: String, passWord: String){

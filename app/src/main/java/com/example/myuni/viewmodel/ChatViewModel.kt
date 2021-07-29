@@ -48,6 +48,7 @@ class ChatViewModel : ViewModel(){
     fun initChatList(sender: String, receiver: String){
         this.sender = sender
         this.receiver = receiver
+        println("sender:$sender  receiver:$receiver")
         dbRef = database.getReference("conversationList").child(Encode.EncodeString(sender)).child(Encode.EncodeString(receiver))
 
         dbRef.addValueEventListener(object : ValueEventListener {

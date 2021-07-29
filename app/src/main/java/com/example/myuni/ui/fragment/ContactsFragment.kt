@@ -18,6 +18,7 @@ import com.example.myuni.viewmodel.MeViewModel
 import android.app.ActionBar as ActionBar
 
 class ContactsFragment : Fragment() {
+    private lateinit var binding: FragmentContactsBinding
     private lateinit var contactsViewModel: ContactsViewModel
     private lateinit var meViewModel: MeViewModel
     private var contactsList = ArrayList<Contacts>()
@@ -39,14 +40,9 @@ class ContactsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = DataBindingUtil.inflate<FragmentContactsBinding>(
-            inflater,
-            R.layout.fragment_contacts,
-            container,
-            false
-        )
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contacts, container, false)
 
-        contactsViewModel = ViewModelProvider(this).get(ContactsViewModel::class.java)
+        contactsViewModel = ViewModelProvider(requireActivity()).get(ContactsViewModel::class.java)
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
 
         contactsViewModel.initContactsList(meViewModel.getLoginUser()!!.email!!)
@@ -67,7 +63,6 @@ class ContactsFragment : Fragment() {
 
 
         binding.lvContacts.setOnItemClickListener { _,_ ,position,_ ->
-
             val contacts = contactsList[position]
             val bundle = Bundle().also {
                 it.putString("email", contacts.email)

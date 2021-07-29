@@ -18,8 +18,9 @@ class ContactsViewModel : ViewModel() {
 
 
     fun initContactsList(email: String){
-        dbRef = database.getReference("contactsList").child(Encode.EncodeString(email))//之后动态获取用户的邮箱
+        _contactsList.value?.clear()
 
+        dbRef = database.getReference("contactsList").child(Encode.EncodeString(email))
         dbRef.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -31,12 +32,11 @@ class ContactsViewModel : ViewModel() {
                     val t = object : GenericTypeIndicator<HashMap<String, Contacts>>() {}
                     var value = snapshot.getValue(t)
 
-                    _contactsList.value?.clear()
-
                     for (key in value!!.keys){
 //                        println("---$key------${value[key]}")
                         val c: Contacts? = value[key]
-                        _contactsList.value = _contactsList.value?.plus(c) as ArrayList<Contacts>
+                        if (value[key]!!.email != email)
+                            _contactsList.value = _contactsList.value?.plus(c) as ArrayList<Contacts>
                     }
                 }
             }

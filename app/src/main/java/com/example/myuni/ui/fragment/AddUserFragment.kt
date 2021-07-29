@@ -27,6 +27,7 @@ class AddUserFragment : Fragment() {
     private lateinit var contactsViewModel: ContactsViewModel
     private lateinit var meViewModel: MeViewModel
     private var newUserList = ArrayList<Contacts>()
+    private var newUser = Contacts()
     private lateinit var adapter: ContactsAdapter
 
     override fun onCreateView(
@@ -40,22 +41,29 @@ class AddUserFragment : Fragment() {
 
         contactsViewModel = ViewModelProvider(requireActivity()).get(ContactsViewModel::class.java)
         contactsViewModel.newUser.observe(viewLifecycleOwner, Observer {
-
             newUserList.clear()
             newUserList.addAll(it)
             adapter.notifyDataSetChanged()
             binding.lvNewUser.setSelection(it.size)
-
+            if (newUserList.size > 0)
+                newUser = newUserList[0]
         })
 
         adapter = ContactsAdapter(requireContext(), R.layout.contacts_item, newUserList);
         binding.adapter = adapter;
 
         binding.lvNewUser.setOnItemClickListener {_,_ ,_,_ ->
+
             alert("Do you want to add this contacts?","Add Contacts") {
                 positiveButton("Yes") {
-                    contactsViewModel.addContacts(meViewModel.getLoginUser()?.email!!)
-                    NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.action_navigation_addUser_to_navigation_contacts)
+                    if (checkUserList(newUser)){
+                        alert("He/She is your friend already!", "Tips") {
+                            positiveButton("Yes"){ }
+                        }.show()
+                    }else{
+                        contactsViewModel.addContacts(meViewModel.getLoginUser()?.email!!)
+                        NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.action_navigation_addUser_to_navigation_contacts)
+                    }
                 }
                 negativeButton("No") { }
             }.show()
@@ -69,5 +77,15 @@ class AddUserFragment : Fragment() {
         contactsViewModel.searchContacts(email)
     }
 
+    private fun checkUserList(newUser: Contacts): Boolean{
+        val list = contactsViewModel.contactsList.value
+        for (i in 0 until list!!.size){
+            println("${newUser.email} <=> ${list[i].email}")
+            if (newUser.email == list[i].email){
+                return true
+            }
+        }
+        return false
+    }
 
 }

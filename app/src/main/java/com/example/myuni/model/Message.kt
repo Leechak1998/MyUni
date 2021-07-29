@@ -1,5 +1,10 @@
 package com.example.myuni.model
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.example.myuni.utils.TimeUtils
+import java.time.LocalDateTime
+
 class Message constructor(content: String?, type: Int?, time: String?){
     companion object{
         val TYPE_RECEIVED: Int = 0
@@ -10,5 +15,6 @@ class Message constructor(content: String?, type: Int?, time: String?){
     val type: Int? = type
     val time: String? = time
 
+    @RequiresApi(Build.VERSION_CODES.O)
     constructor():this("",null, "")
 }
