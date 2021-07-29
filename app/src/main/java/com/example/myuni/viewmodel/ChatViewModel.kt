@@ -15,61 +15,66 @@ import kotlin.collections.HashMap
 
 class ChatViewModel : ViewModel(){
     private lateinit var dbRef: DatabaseReference
+    private lateinit var dbRefReceiver: DatabaseReference
     private var database = FirebaseDatabase.getInstance()
-
-
-//    private val _messageList = MutableLiveData<ArrayList<Message>>().apply {
-//        var m: ArrayList<Message> = object : ArrayList<Message>(){
-//            init {
-//                val msg1 = Message("Hello, how are you?", Message.TYPE_SEND, LocalDateTime.now().toString())
-//                add(msg1)
-//                val msg2 = Message("Fine, thank you.", Message.TYPE_RECEIVED, LocalDateTime.now().toString())
-//                add(msg2)
-//            }
-//        }
-//        value = m
-//    }
-
     private val _messageList = MutableLiveData<ArrayList<Message>>().apply {
         value = object : ArrayList<Message>(){}
     }
-
     val messageList: LiveData<ArrayList<Message>> = _messageList
+    private var count: Int = 0
+    private var sender: String = ""
+    private var receiver: String = ""
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendMessage(content: String){
+        dbRef = database.getReference("conversationList").child(Encode.EncodeString(sender)).child(Encode.EncodeString(receiver))
         var map: HashMap<String, Any> = HashMap<String, Any>()
         val message = Message(content, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
-        _messageList.value = _messageList.value!!.plus(message) as ArrayList<Message>
-        map[message.time.toString()] = message
+        if (count != 0)
+            _messageList.value = _messageList.value!!.plus(message) as ArrayList<Message>
+        map[Encode.EncodeString(message.time!!)] = message
         dbRef.updateChildren(map)
 
+        dbRefReceiver = database.getReference("conversationList").child(Encode.EncodeString(receiver)).child(Encode.EncodeString(sender))//之后动态获取用户的邮箱
+        var mapReceived: HashMap<String, Any> = HashMap<String, Any>()
+        val messageReceived = Message(content, Message.TYPE_RECEIVED, TimeUtils.getCurrentTime(LocalDateTime.now()))
+        mapReceived[Encode.EncodeString(message.time!!)] = messageReceived
+        dbRefReceiver.updateChildren(mapReceived)
     }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun initChatList(){
-        dbRef = database.getReference("conversationList").child(Encode.EncodeString("rl1r20@soton.ac.uk")).child(Encode.EncodeString("yh12n20@soton.ac.uk"))//之后动态获取用户的邮箱
-
-        var map: HashMap<String, Message> = HashMap()
-        val m = Message("hi ellen", Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
-        map[m.time.toString()] = m
-        dbRef.setValue(map)
+    fun initChatList(sender: String, receiver: String){
+        this.sender = sender
+        this.receiver = receiver
+        dbRef = database.getReference("conversationList").child(Encode.EncodeString(sender)).child(Encode.EncodeString(receiver))
 
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()){
+                    println("Chat Data change!")
                     val t  = object : GenericTypeIndicator<HashMap<String, Message>>() {}
                     var value = dataSnapshot.getValue(t)
 
-                    //遍历map,只添加最新的消息
-                    for ((count, key) in value!!.keys.withIndex()){
-                        if (count == value.size){
+                    if (count == 0){
+                        var temp = ArrayList<Message>()
+                        for ((c, key) in value!!.keys.withIndex()){
                             val m: Message? = value[key]
-                            _messageList.value = _messageList.value!!.plus(m) as ArrayList<Message>
+                            temp.add(m!!)
+                        }
+                        _messageList.value = _messageList.value!!.plus(TimeUtils.orderChatList(temp)) as ArrayList<Message>
+                        count++
+                    }else{
+                        //遍历map,只添加最新的消息
+                        for ((c, key) in value!!.keys.withIndex()){
+                            if (c == value.size){
+                                val m: Message? = value[key]
+                                _messageList.value = _messageList.value!!.plus(m) as ArrayList<Message>
+                            }
                         }
                     }
+
                 }else{
                     println("none data...")
                 }
@@ -79,6 +84,11 @@ class ChatViewModel : ViewModel(){
                 println("NOTHING CHANGE!!!!!!")
             }
         })
+    }
+
+    fun initCountAndList(){
+        _messageList.value!!.clear()
+        count = 0
     }
 
 

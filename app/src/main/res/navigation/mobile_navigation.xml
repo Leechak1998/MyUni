@@ -61,7 +61,11 @@
         android:id="@+id/navigation_me"
         android:name="com.example.myuni.ui.fragment.MeFragment"
         android:label="@string/title_me"
-        tools:layout="@layout/fragment_me" />
+        tools:layout="@layout/fragment_me" >
+        <action
+            android:id="@+id/action_navigation_me_to_navigation_login"
+            app:destination="@id/navigation_login" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_chat"

@@ -20,36 +20,38 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var meViewModel: MeViewModel
     private lateinit var utilViewModel: UtilViewModel
-    private var isLogin: Int? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate<FragmentLoginBinding>(inflater, R.layout.fragment_login, container, false)
-        binding.login = this
-        binding.avi.hide()
-        utilViewModel = ViewModelProvider(requireActivity()).get(UtilViewModel::class.java)
-        utilViewModel.setNavBarStatus(true)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
 
-        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+        init()
 
-        meViewModel.text.observe(viewLifecycleOwner, Observer {
-            isLogin = it
-//            println("isLogin => $isLogin      it => $it")
-            if (isLogin == 1){
+        meViewModel.isLogin.observe(viewLifecycleOwner, Observer {
+            println("登陆状态改变->$it")
+            if (it == 1){
                 println("登陆成功")
                 binding.avi.hide()
                 utilViewModel.setNavBarStatus(false)
-                NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_login_to_navigation_home)
-                Toast.makeText(context, "User ${meViewModel.getLoginUser()!!.name} login", Toast.LENGTH_LONG).show()
-            } else if (isLogin == -1){
+
+                NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.navigation_home)
+                Toast.makeText(context, "Welcome, ${meViewModel.getLoginUser()!!.name}", Toast.LENGTH_LONG).show()
+            } else if (it == -1){
                 binding.avi.hide()
                 Toast.makeText(context,"Invalid email or password!", Toast.LENGTH_SHORT).show()
             }
         })
 
         return binding.root
+    }
+
+    private fun init(){
+        binding.login = this
+        binding.avi.hide()
+
+        utilViewModel = ViewModelProvider(requireActivity()).get(UtilViewModel::class.java)
+        utilViewModel.setNavBarStatus(true)
+
+        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
     }
 
     fun login(){
@@ -60,7 +62,7 @@ class LoginFragment : Fragment() {
     }
 
     fun register(){
-        NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_login_to_navigation_register)
+        NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.navigation_register)
     }
 
 }

@@ -16,11 +16,27 @@
         tools:context=".ui.fragment.RegisterFragment">
 
         <LinearLayout
+            android:id="@+id/ly0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/iv_prifile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/profile_default"/>
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/ly1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:layout_below="@+id/ly0">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,8 +101,7 @@
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:inputType="numberPassword"/>
+                android:layout_weight="7"/>
         </LinearLayout>
 
 

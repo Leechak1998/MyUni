@@ -2,6 +2,7 @@ package com.example.myuni.ui.fragment
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -47,27 +48,39 @@ class ContactsFragment : Fragment() {
 
         contactsViewModel = ViewModelProvider(this).get(ContactsViewModel::class.java)
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+
+        contactsViewModel.initContactsList(meViewModel.getLoginUser()!!.email!!)
         
         contactsViewModel.contactsList.observe(viewLifecycleOwner, Observer { it ->
             contactsList.clear()
             contactsList.addAll(it)
             adapter.notifyDataSetChanged()
             binding.lvContacts.setSelection(it.size)
-            println("更新用户列表")
-            for (i in contactsList.indices){
-                println("------$i----${contactsList[i].name}")
-            }
+//            println("更新用户列表")
+//            for (i in contactsList.indices){
+//                println("------$i----${contactsList[i].name}")
+//            }
         })
 
         adapter = ContactsAdapter(requireContext(), R.layout.contacts_item, contactsList);
         binding.adapter = adapter;
 
-        contactsViewModel.initContactsList(meViewModel.getLoginUser()!!.email!!)
 
         binding.lvContacts.setOnItemClickListener { _,_ ,position,_ ->
-            NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_contacts_to_navigation_chat)
+
+            val contacts = contactsList[position]
+            val bundle = Bundle().also {
+                it.putString("email", contacts.email)
+            }
+            NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_contacts_to_navigation_chat, bundle)
         }
 
         return binding.root
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        println("恢复联系人列表页面")
+//        contactsViewModel.initContactsList(meViewModel.getLoginUser()!!.email!!)
+//    }
 }

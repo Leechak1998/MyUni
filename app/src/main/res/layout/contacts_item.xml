@@ -19,7 +19,9 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="5dp"
-            android:src="@{contacts.imageId}"/>
+            app:setImageBitmap="@{contacts.imageId}"
+            />
+<!--        android:src="@{contacts.imageId}"-->
 
         <TextView
             android:id="@+id/tv_name"

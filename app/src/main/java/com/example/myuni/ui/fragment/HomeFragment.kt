@@ -16,10 +16,12 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.myuni.R
 import com.example.myuni.databinding.FragmentHomeBinding
 import com.example.myuni.viewmodel.HomeViewModel
+import com.example.myuni.viewmodel.MeViewModel
 
 class HomeFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var meViewModel: MeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -33,6 +35,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private fun init(){
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
+        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+
         binding.ibtnPost.setOnClickListener(this)
         binding.ibtnShop.setOnClickListener(this)
         binding.ibtnShop.setOnClickListener(this)
@@ -41,8 +45,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.ibtn_post ->
-                Toast.makeText(requireContext(), "Go to post page", Toast.LENGTH_SHORT).show()
+            R.id.ibtn_post ->{
+                val name = meViewModel.getLoginUser()!!.name
+
+                Toast.makeText(requireContext(), "Go to post page --> ${name}", Toast.LENGTH_SHORT).show()
+            }
             R.id.ibtn_shop ->
                 NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.navigation_shop)
             R.id.ibtn_news ->

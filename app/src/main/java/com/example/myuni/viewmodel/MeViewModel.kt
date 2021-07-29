@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myuni.R
 import com.example.myuni.model.Contacts
+import com.example.myuni.ui.activity.MainActivity
 import com.example.myuni.utils.Encode
 import com.google.firebase.database.*
 import kotlin.collections.HashMap
@@ -14,10 +15,10 @@ class MeViewModel : ViewModel() {
     private var database = FirebaseDatabase.getInstance()
     private var loginUser: Contacts? = null
 
-    private val _text = MutableLiveData<Int>().apply {
+    private val _isLogin = MutableLiveData<Int>().apply {
         value = 0
     }
-    val text: LiveData<Int> = _text
+    val isLogin: LiveData<Int> = _isLogin
 
     fun registerNewUser(contact: Contacts){
         //初始化用户列表
@@ -53,23 +54,27 @@ class MeViewModel : ViewModel() {
                     var value = snapshot.getValue(t)
                     if (passWord == value!!["password"]){
                         println("密码正确")
-                        //头像之后再做处理，先给默认头像
-                        loginUser = Contacts(value["name"] as String, R.drawable.profile_default, value["email"] as String, value["password"] as String)
-                        _text.value = 1
+                        loginUser = Contacts(value["name"] as String, value["imageId"] as String, value["email"] as String, value["password"] as String)
+                        _isLogin.value = 1
                     } else{
-                        _text.value = -1
+                        _isLogin.value = -1
                         println("my password:${passWord}, ps:${value!!["password"]}")
                     }
                 }else
-                    _text.value = -1
+                    _isLogin.value = -1
             }
 
         })
     }
 
     fun getLoginUser(): Contacts?{
-        if (_text.value == 1)
+        if (_isLogin.value == 1)
             return loginUser
         return null
+    }
+
+    fun logOut(){
+        _isLogin.value = 0
+
     }
 }

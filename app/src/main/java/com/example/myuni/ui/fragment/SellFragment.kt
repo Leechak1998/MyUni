@@ -71,6 +71,15 @@ class SellFragment : Fragment() {
 
 
     private fun dispatchTakePictureIntent() {
+
+//        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
+//        Intent(Intent.ACTION_PICK).also { pickPicture ->
+//            pickPicture.setType("image/*").also {
+//                startActivityForResult(pickPicture, PHOTO_REQUEST_GALLERY)
+//            }
+//        }
+
+
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
@@ -97,9 +106,7 @@ class SellFragment : Fragment() {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             if (binding.ivPhoto1.drawable == null) {
-
                 binding.ivPhoto1.setImageBitmap(imageBitmap)
-//                println("看看drawable是什么 ${binding.ivPhoto1.drawable} +++ $imageBitmap")
                 binding.ivPhoto1.visibility = View.VISIBLE
                 binding.imgBtnTakePic1.visibility = View.GONE
             }else{
@@ -109,6 +116,9 @@ class SellFragment : Fragment() {
             }
 
         }
+//        else if( requestCode == PHOTO_REQUEST_GALLERY && resultCode == RESULT_OK){
+//
+//        }
     }
 
     override fun onDestroy() {
@@ -118,6 +128,7 @@ class SellFragment : Fragment() {
 
     companion object{
         const val REQUEST_IMAGE_CAPTURE = 1
+        const val PHOTO_REQUEST_GALLERY = 2
     }
 
 }
