@@ -66,11 +66,11 @@
                 android:background="#FF909090" />
 
             <Button
-                android:id="@+id/btnAboutUs"
+                android:id="@+id/btnMyOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="70dp"
                 android:background="@drawable/btn_background"
-                android:text="About us"
+                android:text="My Order"
                 android:textAllCaps="false"
                 android:textSize="20dp" />
 

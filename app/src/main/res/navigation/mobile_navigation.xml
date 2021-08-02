@@ -93,4 +93,23 @@
             app:destination="@id/navigation_shop" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_goodsDetails"
+        android:name="com.example.myuni.ui.fragment.GoodsDetailsFragment"
+        android:label="Details"
+        tools:layout="@layout/fragment_goods_details" />
+
+    <fragment
+        android:id="@+id/navigation_myOrder"
+        android:name="com.example.myuni.ui.fragment.MyOrderFragment"
+        android:label="My Order"
+        tools:layout="@layout/fragment_my_order" />
+
+    <fragment
+        android:id="@+id/navigation_orderDetails"
+        android:name="com.example.myuni.ui.fragment.OrderDetailsFragment"
+        android:label="Order Details"
+        tools:layout="@layout/fragment_sell" />
+
+
 </navigation>

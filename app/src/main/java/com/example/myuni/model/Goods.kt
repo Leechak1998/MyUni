@@ -4,15 +4,18 @@ import android.graphics.Bitmap
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.example.myuni.utils.BitmapUtils
+import java.io.Serializable
 
 
-class Goods constructor(name: String?, price: String?, description: String?, image1: String?, image2: String?) {
+class Goods constructor(name: String?, price: String?, description: String?, image1: String?, image2: String?, owner: String, orderNum: String): Serializable{
 
     val name = name
     val price = price
     val description = description
     val image1 = image1
     val image2 = image2
+    val owner = owner
+    val orderNum = orderNum
 
     companion object {
         @BindingAdapter("app:setImageBitmap")
@@ -22,5 +25,5 @@ class Goods constructor(name: String?, price: String?, description: String?, ima
         }
     }
 
-    constructor():this("", "", "", null, null)
+    constructor():this("", "", "", null, null, "", "")
 }

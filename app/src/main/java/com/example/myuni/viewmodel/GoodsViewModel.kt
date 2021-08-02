@@ -3,22 +3,23 @@ package com.example.myuni.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myuni.model.Goods
-import com.example.myuni.utils.Encode
+import com.example.myuni.utils.EncodeUtils
+import com.example.myuni.utils.OrderUtils
 import com.google.firebase.database.*
 
 class GoodsViewModel : ViewModel() {
 
     private lateinit var dbRef: DatabaseReference
     private var database = FirebaseDatabase.getInstance()
-
-    private val _goodsList = MutableLiveData<ArrayList<Goods>>().apply {
-        value = object : ArrayList<Goods>(){}
-    }
-
+    private val _goodsList = MutableLiveData<ArrayList<Goods>>().apply { value = object : ArrayList<Goods>(){} }
     val goodsList: MutableLiveData<ArrayList<Goods>> = _goodsList
+    private val _buyingList = MutableLiveData<ArrayList<Goods>>().apply { value = object : ArrayList<Goods>(){} }
+    val buyingList: MutableLiveData<ArrayList<Goods>> = _buyingList
+    private val _sellingList = MutableLiveData<ArrayList<Goods>>().apply { value = object : ArrayList<Goods>(){} }
+    val sellingList: MutableLiveData<ArrayList<Goods>> = _sellingList
 
-    fun initGoodsList(email: String){
-        dbRef = database.getReference("goodsList").child(Encode.EncodeString(email))//之后动态获取用户的邮箱
+    fun initGoodsList(){
+        dbRef = database.getReference("goodsList").child("sellingList")
 
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -43,15 +44,79 @@ class GoodsViewModel : ViewModel() {
         })
     }
 
+    //Add item to selling list
     fun addGoods(newGoods: Goods, userEmail: String){
-        dbRef = database.getReference("goodsList").child(Encode.EncodeString(userEmail))
-        var map: HashMap<String, Any> = HashMap<String, Any>()
+        dbRef = database.getReference("goodsList").child("sellingList")
+        _goodsList.value = _goodsList.value?.plus(newGoods) as ArrayList<Goods>
+        var map: HashMap<String, Any> = HashMap()
+        map[newGoods.orderNum] = newGoods
+        dbRef.updateChildren(map)
+    }
 
-        val c = Goods(newGoods.name, newGoods.price, newGoods.description, newGoods.image1, newGoods.image2)
-        _goodsList.value = _goodsList.value?.plus(c) as ArrayList<Goods>
+    fun purchaseGoods(pGoods: Goods, userEmail: String){
+        //Add item to buying list
+        dbRef = database.getReference("goodsList").child("buyingList").child(EncodeUtils.EncodeString(userEmail))
+        _buyingList.value = _buyingList.value?.plus(pGoods) as ArrayList<Goods>
+        var map: HashMap<String, Any> = HashMap()
+        map[pGoods.orderNum] = pGoods
+        dbRef.updateChildren(map)
 
-        map[Encode.EncodeString(newGoods.name!!)] = c
-        dbRef.setValue(map)
+        //Delete item from sellingList
+        dbRef = database.getReference("goodsList").child("sellingList").child(pGoods.orderNum)
+        dbRef.removeValue()
+    }
+
+    fun getSellingList(currentUser: String){
+        dbRef = database.getReference("goodsList").child("sellingList")
+
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val t = object : GenericTypeIndicator<HashMap<String, Goods>>() {}
+                    var value = snapshot.getValue(t)
+
+                    _sellingList.value?.clear()
+
+                    for (key in value!!.keys){
+                        val g: Goods? = value[key]
+
+                        if (currentUser == g!!.owner)
+                            _sellingList.value = _sellingList.value?.plus(g) as ArrayList<Goods>
+                        else
+                            println("current: ${currentUser}  == owner: ${g!!.owner}")
+                    }
+                }
+            }
+        })
+    }
+
+    fun getBuyingList(currentUser: String){
+        dbRef = database.getReference("goodsList").child("buyingList").child(EncodeUtils.EncodeString(currentUser))
+
+        dbRef.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val t = object : GenericTypeIndicator<HashMap<String, Goods>>() {}
+                    var value = snapshot.getValue(t)
+
+                    _buyingList.value?.clear()
+
+                    for (key in value!!.keys){
+                        val g: Goods? = value[key]
+                        _buyingList.value = _buyingList.value?.plus(g) as ArrayList<Goods>
+                    }
+                }
+            }
+
+        })
     }
 
 }

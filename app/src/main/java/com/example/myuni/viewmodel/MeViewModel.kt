@@ -5,11 +5,9 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myuni.R
 import com.example.myuni.model.Contacts
 import com.example.myuni.model.Message
-import com.example.myuni.ui.activity.MainActivity
-import com.example.myuni.utils.Encode
+import com.example.myuni.utils.EncodeUtils
 import com.example.myuni.utils.TimeUtils
 import com.google.firebase.database.*
 import java.time.LocalDateTime
@@ -30,13 +28,13 @@ class MeViewModel : ViewModel() {
         //初始化用户列表
         dbRef = database.getReference("usersList")
         var map: HashMap<String, Any> = HashMap()
-        map[Encode.EncodeString(contact.email!!)] = contact
+        map[EncodeUtils.EncodeString(contact.email!!)] = contact
         dbRef.updateChildren(map)
 
         //初始化注册联系列表
-        dbRef = database.getReference("contactsList").child(Encode.EncodeString(contact.email!!))
+        dbRef = database.getReference("contactsList").child(EncodeUtils.EncodeString(contact.email!!))
         map.clear()
-        map[Encode.EncodeString(contact.email!!)] = contact
+        map[EncodeUtils.EncodeString(contact.email!!)] = contact
         dbRef.updateChildren(map)
 
 
@@ -45,13 +43,13 @@ class MeViewModel : ViewModel() {
         var map1: HashMap<String, Any> = HashMap<String, Any>()
         val message = Message(null, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
         //val message = Message()
-        dbRef = database.getReference("conversationList").child(Encode.EncodeString(contact.email!!)).child(Encode.EncodeString(contact.email!!))
-        map1[Encode.EncodeString(message.time!!)] = message
+        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(contact.email!!)).child(EncodeUtils.EncodeString(contact.email!!))
+        map1[EncodeUtils.EncodeString(message.time!!)] = message
         dbRef.setValue(map1)
     }
 
     fun login(email: String, passWord: String){
-        dbRef = database.getReference("usersList").child(Encode.EncodeString(email))
+        dbRef = database.getReference("usersList").child(EncodeUtils.EncodeString(email))
 
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {

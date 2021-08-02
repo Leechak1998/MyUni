@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myuni.model.Message
-import com.example.myuni.utils.Encode
+import com.example.myuni.utils.EncodeUtils
 import com.example.myuni.utils.TimeUtils
 import com.google.firebase.database.*
 import java.time.LocalDateTime
@@ -28,18 +28,18 @@ class ChatViewModel : ViewModel(){
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendMessage(content: String){
-        dbRef = database.getReference("conversationList").child(Encode.EncodeString(sender)).child(Encode.EncodeString(receiver))
+        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(sender)).child(EncodeUtils.EncodeString(receiver))
         var map: HashMap<String, Any> = HashMap<String, Any>()
         val message = Message(content, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
         if (count != 0)
             _messageList.value = _messageList.value!!.plus(message) as ArrayList<Message>
-        map[Encode.EncodeString(message.time!!)] = message
+        map[EncodeUtils.EncodeString(message.time!!)] = message
         dbRef.updateChildren(map)
 
-        dbRefReceiver = database.getReference("conversationList").child(Encode.EncodeString(receiver)).child(Encode.EncodeString(sender))//之后动态获取用户的邮箱
+        dbRefReceiver = database.getReference("conversationList").child(EncodeUtils.EncodeString(receiver)).child(EncodeUtils.EncodeString(sender))//之后动态获取用户的邮箱
         var mapReceived: HashMap<String, Any> = HashMap<String, Any>()
         val messageReceived = Message(content, Message.TYPE_RECEIVED, TimeUtils.getCurrentTime(LocalDateTime.now()))
-        mapReceived[Encode.EncodeString(message.time!!)] = messageReceived
+        mapReceived[EncodeUtils.EncodeString(message.time!!)] = messageReceived
         dbRefReceiver.updateChildren(mapReceived)
     }
 
@@ -49,7 +49,7 @@ class ChatViewModel : ViewModel(){
         this.sender = sender
         this.receiver = receiver
         println("sender:$sender  receiver:$receiver")
-        dbRef = database.getReference("conversationList").child(Encode.EncodeString(sender)).child(Encode.EncodeString(receiver))
+        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(sender)).child(EncodeUtils.EncodeString(receiver))
 
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

@@ -29,7 +29,6 @@
                 android:src="@drawable/profile_default"/>
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/ly1"
             android:layout_width="match_parent"
@@ -41,14 +40,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
                 android:text="Email:" />
 
             <EditText
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="7" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/hideTv1"
@@ -72,14 +69,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
                 android:text="Username:" />
 
             <EditText
                 android:id="@+id/etUsername"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="6" />
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
@@ -94,14 +89,40 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
                 android:text="Password:" />
 
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ly4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ly3"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"/>
+                android:text="Location:" />
+
+            <TextView
+                android:id="@+id/tvSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:gravity="center_vertical" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#949494" />
+
         </LinearLayout>
 
 
@@ -109,7 +130,7 @@
             android:id="@+id/ly5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ly3"
+            android:layout_below="@id/ly4"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingTop="10dp">

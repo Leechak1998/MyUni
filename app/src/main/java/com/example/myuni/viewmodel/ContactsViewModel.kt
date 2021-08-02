@@ -2,9 +2,8 @@ package com.example.myuni.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myuni.R
 import com.example.myuni.model.Contacts
-import com.example.myuni.utils.Encode
+import com.example.myuni.utils.EncodeUtils
 import com.google.firebase.database.*
 
 
@@ -20,7 +19,7 @@ class ContactsViewModel : ViewModel() {
     fun initContactsList(email: String){
         _contactsList.value?.clear()
 
-        dbRef = database.getReference("contactsList").child(Encode.EncodeString(email))
+        dbRef = database.getReference("contactsList").child(EncodeUtils.EncodeString(email))
         dbRef.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -76,12 +75,12 @@ class ContactsViewModel : ViewModel() {
     }
 
     fun addContacts(userEmail: String){
-        dbRef = database.getReference("contactsList").child(Encode.EncodeString(userEmail))
+        dbRef = database.getReference("contactsList").child(EncodeUtils.EncodeString(userEmail))
         var map: HashMap<String, Any> = HashMap<String, Any>()
         val c : Contacts = _newUser.value?.get(0)!!
         _newUser.value!!.clear()
         _contactsList.value = _contactsList.value?.plus(c) as ArrayList<Contacts>
-        map[Encode.EncodeString(c.email!!)] = c
+        map[EncodeUtils.EncodeString(c.email!!)] = c
         dbRef.updateChildren(map)
     }
 

@@ -18,15 +18,6 @@ class Contacts constructor(name: String?, imageId: String?, email: String?, pass
         }
     }
 
-//    //没加JVMStatic，图片无法显示！！！！
-//    companion object {
-//        @BindingAdapter("android:src")
-//        @JvmStatic
-//        fun setImageViewResource(imageView: ImageView, resource: Int) {
-//            imageView.setImageResource(resource)
-//        }
-//    }
-
     constructor():this("",null,"", "")
 
 }

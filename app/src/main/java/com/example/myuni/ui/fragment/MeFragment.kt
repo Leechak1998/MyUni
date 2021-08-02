@@ -41,7 +41,7 @@ class MeFragment : Fragment(), View.OnClickListener {
 
         binding.btnProfile.setOnClickListener(this)
         binding.btnPassword.setOnClickListener(this)
-        binding.btnAboutUs.setOnClickListener(this)
+        binding.btnMyOrder.setOnClickListener(this)
         binding.btnOut.setOnClickListener(this)
     }
 
@@ -51,10 +51,9 @@ class MeFragment : Fragment(), View.OnClickListener {
                 Toast.makeText(requireContext(), "Go to profile page", Toast.LENGTH_SHORT).show()
             R.id.btnPassword ->
                 Toast.makeText(requireContext(), "Go to password page", Toast.LENGTH_SHORT).show()
-            R.id.btnAboutUs ->
-                Toast.makeText(requireContext(), "Go to about us page", Toast.LENGTH_SHORT).show()
+            R.id.btnMyOrder ->
+                Navigation.findNavController(view).navigate(R.id.navigation_myOrder)
             R.id.btnOut -> {
-                val activity = MainActivity()
                 meViewModel.logOut()
                 Navigation.findNavController(view).navigate(R.id.navigation_login)
             }
