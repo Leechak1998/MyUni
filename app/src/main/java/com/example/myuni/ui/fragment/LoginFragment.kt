@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.example.myuni.R
 import com.example.myuni.databinding.FragmentLoginBinding
+import com.example.myuni.utils.Uni
 import com.example.myuni.viewmodel.MeViewModel
 import com.example.myuni.viewmodel.UtilViewModel
 

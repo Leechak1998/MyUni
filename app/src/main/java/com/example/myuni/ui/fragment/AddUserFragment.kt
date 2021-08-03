@@ -16,6 +16,7 @@ import com.example.myuni.adapter.ContactsAdapter
 import com.example.myuni.databinding.FragmentAddUserBinding
 import com.example.myuni.databinding.FragmentChatBinding
 import com.example.myuni.model.Contacts
+import com.example.myuni.utils.Utils
 import com.example.myuni.viewmodel.ContactsViewModel
 import com.example.myuni.viewmodel.MeViewModel
 import org.jetbrains.anko.noButton
@@ -53,7 +54,6 @@ class AddUserFragment : Fragment() {
         binding.adapter = adapter;
 
         binding.lvNewUser.setOnItemClickListener {_,_ ,_,_ ->
-
             alert("Do you want to add this contacts?","Add Contacts") {
                 positiveButton("Yes") {
                     if (checkUserList(newUser)){
@@ -75,6 +75,7 @@ class AddUserFragment : Fragment() {
     fun searchUser(){
         val email = binding.etInput.text.toString()
         contactsViewModel.searchContacts(email)
+        Utils.closeKeyBoard(requireContext())
     }
 
     private fun checkUserList(newUser: Contacts): Boolean{

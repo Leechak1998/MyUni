@@ -3,6 +3,7 @@ package com.example.myuni.ui.fragment
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,6 +14,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
@@ -24,6 +26,8 @@ import com.example.myuni.R
 import com.example.myuni.databinding.FragmentRegisterBinding
 import com.example.myuni.model.Contacts
 import com.example.myuni.utils.BitmapUtils
+import com.example.myuni.utils.Uni
+import com.example.myuni.utils.Utils
 import com.example.myuni.viewmodel.MeViewModel
 import org.jetbrains.anko.support.v4.selector
 import org.jetbrains.anko.support.v4.toast
@@ -39,7 +43,7 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate<FragmentRegisterBinding>(inflater, R.layout.fragment_register, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
 
         init()
         return binding.root
@@ -53,12 +57,10 @@ class RegisterFragment : Fragment() {
             show()
         }
 
-        //val satellites = listOf("Select", "University of Southampton", "Solent University", "Queen Mary University of London", "University College London")
-        val locationList = listOf("", "")
-        binding.tvSpinner.text = locationList[0]
+        binding.tvSpinner.text = Uni.uniName[0]
         binding.tvSpinner.setOnClickListener {
-            selector("Please select your Uni", locationList) { _, i ->
-                binding.tvSpinner.text = locationList[i]
+            selector("Please select your Uni", Uni.uniName) { _, i ->
+                binding.tvSpinner.text = Uni.uniName[i]
             }
         }
     }
@@ -71,16 +73,26 @@ class RegisterFragment : Fragment() {
         val email = binding.etEmail.text.toString()
         val userName = binding.etUsername.text.toString()
         val passWord = binding.etPassword.text.toString()
+        val uni = binding.tvSpinner.text.toString()
 
+        if (checkInfo(email, userName, passWord, uni)){
+            var newContacts = Contacts(userName, profile, email, passWord, uni)
+            meViewModel.registerNewUser(newContacts)
+            NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_register_to_navigation_login)
+        }else
+            toast("Please complete all information")
 
-
-        var newContacts = Contacts(userName, profile, email, passWord)
-        meViewModel.registerNewUser(newContacts)
-        NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_register_to_navigation_login)
+        Utils.closeKeyBoard(requireContext())
     }
 
     fun cancel(){
         NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_register_to_navigation_login)
+    }
+
+    private fun checkInfo(email: String, userName: String, passWord: String, uni: String): Boolean{
+        if (email != null && userName != null && passWord != null && uni != "Please select your Uni")
+            return true
+        return false
     }
 
     private fun show() {

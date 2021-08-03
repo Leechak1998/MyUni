@@ -72,10 +72,4 @@ class ContactsFragment : Fragment() {
 
         return binding.root
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        println("恢复联系人列表页面")
-//        contactsViewModel.initContactsList(meViewModel.getLoginUser()!!.email!!)
-//    }
 }

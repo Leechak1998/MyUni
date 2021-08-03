@@ -37,8 +37,6 @@ class MeViewModel : ViewModel() {
         map[EncodeUtils.EncodeString(contact.email!!)] = contact
         dbRef.updateChildren(map)
 
-
-        //map[Encode.EncodeString(message.time!!)] = message
         //初始化注册对话列表
         var map1: HashMap<String, Any> = HashMap<String, Any>()
         val message = Message(null, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
@@ -62,7 +60,7 @@ class MeViewModel : ViewModel() {
                     var value = snapshot.getValue(t)
                     if (passWord == value!!["password"]){
                         println("密码正确")
-                        loginUser = Contacts(value["name"] as String, value["imageId"] as String, value["email"] as String, value["password"] as String)
+                        loginUser = Contacts(value["name"] as String, value["imageId"] as String, value["email"] as String, value["password"] as String, value["uni"] as String)
                         _isLogin.value = 1
                     } else{
                         _isLogin.value = -1

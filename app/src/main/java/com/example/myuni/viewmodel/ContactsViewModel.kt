@@ -31,6 +31,7 @@ class ContactsViewModel : ViewModel() {
                     val t = object : GenericTypeIndicator<HashMap<String, Contacts>>() {}
                     var value = snapshot.getValue(t)
 
+                    _contactsList.value?.clear()
                     for (key in value!!.keys){
 //                        println("---$key------${value[key]}")
                         val c: Contacts? = value[key]
@@ -61,7 +62,7 @@ class ContactsViewModel : ViewModel() {
                     for (key in value!!.keys){
                         if (email == value[key]!!.email){
                             _newUser.value?.clear()
-                            val c = Contacts(value[key]!!.name as String, value[key]!!.imageId as String, value[key]!!.email as String, value[key]!!.password as String)
+                            val c = Contacts(value[key]!!.name as String, value[key]!!.imageId as String, value[key]!!.email as String, value[key]!!.password as String, value[key]!!.uni as String)
                             _newUser.value = _newUser.value?.plus(c) as ArrayList<Contacts>
                             break
                         }
@@ -79,6 +80,7 @@ class ContactsViewModel : ViewModel() {
         var map: HashMap<String, Any> = HashMap<String, Any>()
         val c : Contacts = _newUser.value?.get(0)!!
         _newUser.value!!.clear()
+
         _contactsList.value = _contactsList.value?.plus(c) as ArrayList<Contacts>
         map[EncodeUtils.EncodeString(c.email!!)] = c
         dbRef.updateChildren(map)

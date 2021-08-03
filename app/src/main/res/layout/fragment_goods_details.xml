@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.fragment.GoodsDetailsFragment">
+
+        <TextView
+            android:id="@+id/tv_tittle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:gravity="top"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#FF909090"/>
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:gravity="top"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#FF909090"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:padding="50dp">
+
+            <ImageView
+                android:id="@+id/iv_photo1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"/>
+
+            <Space
+                android:id="@+id/spacer"
+                android:layout_width="20dp"
+                android:layout_height="0dp"
+                android:layout_toRightOf="@id/iv_photo1"/>
+
+            <ImageView
+                android:id="@+id/iv_photo2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_toRightOf="@id/spacer"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#FF909090"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Price:"
+                android:textSize="25dp"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="￡"
+                android:textSize="25dp"
+                android:gravity="right|center_vertical"
+                android:layout_toRightOf="@id/tv1"
+                android:layout_toLeftOf="@id/tv_price" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="right|center_vertical"
+                android:textSize="25dp"
+                android:digits="0123456789."
+                android:layout_alignParentRight="true"/>
+
+            <Button
+                android:id="@+id/btn_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_price"
+                android:text="Contact Seller"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/btn_purchase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_contact"
+                android:text="Purchase"
+                android:textAllCaps="false"/>
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+</layout>
