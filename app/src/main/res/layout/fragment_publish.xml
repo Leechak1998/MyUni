@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.PublishFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category  "
+                android:textColor="@color/black"
+                android:textSize="20dp"/>
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/tv"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Study" />
+
+                <RadioButton
+                    android:id="@+id/rb_life"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Life" />
+
+                <RadioButton
+                    android:id="@+id/rb_entertainment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="entertainment" />
+
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/et_tittle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv"
+                android:paddingTop="10dp"
+                android:hint="Please enter tittle"
+                android:textSize="20dp"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@id/et_tittle"
+                android:hint="Please enter description"
+                android:gravity="top"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
+
+
+            <LinearLayout
+                android:id="@+id/ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_below="@id/et_description">
+
+                <ImageView
+                    android:id="@+id/iv_image1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/imageview_background"
+                    android:src="@drawable/ic_addpic_add_50dp"/>
+
+                <Space
+                    android:layout_width="1dp"
+                    android:layout_height="5dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_image2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/imageview_background"
+                    android:src="@drawable/ic_addpic_add_50dp" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_image3"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/imageview_background"
+                    android:src="@drawable/ic_addpic_add_50dp" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+</layout>

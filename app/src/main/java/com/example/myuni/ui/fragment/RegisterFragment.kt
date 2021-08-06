@@ -3,7 +3,6 @@ package com.example.myuni.ui.fragment
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,7 +13,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
@@ -23,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.example.myuni.R
+//import com.example.myuni.R
 import com.example.myuni.databinding.FragmentRegisterBinding
 import com.example.myuni.model.Contacts
 import com.example.myuni.utils.BitmapUtils
@@ -96,14 +95,14 @@ class RegisterFragment : Fragment() {
     }
 
     private fun show() {
-        val buttonDialog = Dialog(requireContext(),R.style.Theme_AppCompat_DayNight_Dialog)
+        val buttonDialog = Dialog(requireContext())
         val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_content,null)
         buttonDialog.setContentView(view)
         val layoutParams: ViewGroup.LayoutParams = view.layoutParams
         layoutParams.width = resources.displayMetrics.widthPixels
         view.layoutParams = layoutParams
         buttonDialog.window?.setGravity(Gravity.BOTTOM)
-        buttonDialog.window?.setWindowAnimations(R.style.Animation_Design_BottomSheetDialog)
+        //buttonDialog.window?.setWindowAnimations(R.style.Animation_Design_BottomSheetDialog)
         buttonDialog.show()
 
         val photo = buttonDialog.findViewById<TextView>(R.id.tv_photo)
@@ -113,7 +112,7 @@ class RegisterFragment : Fragment() {
         photo.setOnClickListener {
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                 takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
-                    startActivityForResult(takePictureIntent, SellFragment.REQUEST_IMAGE_CAPTURE)
+                    startActivityForResult(takePictureIntent, Utils.REQUEST_IMAGE_CAPTURE)
                 }
             }
             buttonDialog.dismiss()
@@ -123,7 +122,7 @@ class RegisterFragment : Fragment() {
             // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
             Intent(Intent.ACTION_PICK).also { pickPicture ->
                 pickPicture.setType("image/*").also {
-                    startActivityForResult(pickPicture, SellFragment.PHOTO_REQUEST_GALLERY)
+                    startActivityForResult(pickPicture, Utils.PHOTO_REQUEST_GALLERY)
                 }
             }
             buttonDialog.dismiss()

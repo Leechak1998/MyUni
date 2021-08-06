@@ -45,8 +45,6 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
     private var friendsArrayList = ArrayList<Contacts>()
     private var distance = ""
     private var distanceList = listOf<String>("1km", "5km", "10km", "10km+")
-//    private lateinit var friendsNameList: ArrayList<String>
-//    private lateinit var friendsEmailList: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +87,7 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
             goodsAdapter.notifyDataSetChanged()
             binding.lvGoods.setSelection(it.size)
         })
-        goodsAdapter = GoodsAdapter(requireContext(), R.layout.goods_item, goodsList)
+        goodsAdapter = GoodsAdapter(requireContext(), R.layout.posting_item, goodsList)
         binding.goodsAdapter = goodsAdapter
 
 
@@ -115,7 +113,6 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.btn_search ->{
-
                 if (binding.btnSearch.text == "GO"){
                     val content = binding.etInput.text.toString()
                     binding.btnSearch.text = "Clear"

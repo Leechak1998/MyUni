@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="comment"
+            type="com.example.myuni.model.Comment" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/profile_default"
+            app:setImageBitmap="@{comment.reviewerPic}"/>
+
+        <TextView
+            android:id="@+id/tv_reviewer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/iv_profile"
+            android:paddingStart="10dp"
+            android:paddingBottom="5dp"
+            android:text="@{comment.reviewer}"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_reviewer"
+            android:layout_toEndOf="@id/iv_profile"
+            android:paddingStart="10dp"
+            android:text="@{comment.time}"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/tv_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_below="@id/tv_time"
+            android:layout_alignStart="@id/tv_time"
+            android:text="@{comment.review}"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tv_review"
+            android:background="@color/black" />
+
+    </RelativeLayout>
+
+</layout>

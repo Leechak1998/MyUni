@@ -26,6 +26,7 @@ import com.example.myuni.databinding.FragmentSellBinding
 import com.example.myuni.model.Goods
 import com.example.myuni.utils.BitmapUtils
 import com.example.myuni.utils.OrderUtils
+import com.example.myuni.utils.Utils
 import com.example.myuni.viewmodel.GoodsViewModel
 import com.example.myuni.viewmodel.MeViewModel
 import com.example.myuni.viewmodel.UtilViewModel
@@ -136,7 +137,7 @@ class SellFragment : Fragment() {
 
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                 takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                    startActivityForResult(takePictureIntent, Utils.REQUEST_IMAGE_CAPTURE)
                 }
             }
             buttonDialog.dismiss()
@@ -171,7 +172,7 @@ class SellFragment : Fragment() {
             // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
             Intent(Intent.ACTION_PICK).also { pickPicture ->
                 pickPicture.setType("image/*").also {
-                    startActivityForResult(pickPicture, PHOTO_REQUEST_GALLERY)
+                    startActivityForResult(pickPicture, Utils.PHOTO_REQUEST_GALLERY)
                 }
             }
             buttonDialog.dismiss()
@@ -216,20 +217,8 @@ class SellFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         lateinit var imageBitmap: Bitmap
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (requestCode == Utils.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             imageBitmap = data?.extras?.get("data") as Bitmap
-
-//            if (position == 0){
-//                setPic(binding.ivPhoto1)
-//                binding.ivPhoto1.visibility = View.VISIBLE
-//                binding.imgBtnTakePic1.visibility = View.INVISIBLE
-
-//            }else if (position == 1){
-//                //binding.ivPhoto2.setImageBitmap(imageBitmap)
-//                setPic(binding.ivPhoto2)
-//                binding.ivPhoto2.visibility = View.VISIBLE
-//                binding.imgBtnTakePic2.visibility = View.INVISIBLE
-//            }
         } else if(requestCode == RegisterFragment.PHOTO_REQUEST_GALLERY && resultCode == RESULT_OK){
             val resolver: ContentResolver = requireActivity().contentResolver
             try {
@@ -292,10 +281,4 @@ class SellFragment : Fragment() {
             imageView.setImageBitmap(bitmap)
         }
     }
-
-    companion object{
-        const val REQUEST_IMAGE_CAPTURE = 1
-        const val PHOTO_REQUEST_GALLERY = 2
-    }
-
 }

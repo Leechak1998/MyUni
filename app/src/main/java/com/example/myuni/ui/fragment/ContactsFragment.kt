@@ -46,12 +46,12 @@ class ContactsFragment : Fragment() {
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
 
         contactsViewModel.initContactsList(meViewModel.getLoginUser()!!.email!!)
-        
         contactsViewModel.contactsList.observe(viewLifecycleOwner, Observer { it ->
             contactsList.clear()
             contactsList.addAll(it)
             adapter.notifyDataSetChanged()
             binding.lvContacts.setSelection(it.size)
+
 //            println("更新用户列表")
 //            for (i in contactsList.indices){
 //                println("------$i----${contactsList[i].name}")

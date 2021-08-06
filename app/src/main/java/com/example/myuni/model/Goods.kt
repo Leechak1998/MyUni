@@ -1,6 +1,5 @@
 package com.example.myuni.model
 
-import android.graphics.Bitmap
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.example.myuni.utils.BitmapUtils

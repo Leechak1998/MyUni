@@ -111,5 +111,22 @@
         android:label="Order Details"
         tools:layout="@layout/fragment_sell" />
 
+    <fragment
+        android:id="@+id/navigation_posting"
+        android:name="com.example.myuni.ui.fragment.PostingFragment"
+        android:label="PostingsList"
+        tools:layout="@layout/fragment_posting" />
+
+    <fragment
+        android:id="@+id/navigation_publish"
+        android:name="com.example.myuni.ui.fragment.PublishFragment"
+        android:label="Publish"
+        tools:layout="@layout/fragment_publish" />
+
+    <fragment
+        android:id="@+id/navigation_postingDetails"
+        android:name="com.example.myuni.ui.fragment.PostingDetailsFragment"
+        android:label="Posting"
+        tools:layout="@layout/fragment_posting_details" />
 
 </navigation>

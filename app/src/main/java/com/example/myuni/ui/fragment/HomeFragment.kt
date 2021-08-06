@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.example.myuni.R
 import com.example.myuni.databinding.FragmentHomeBinding
@@ -22,6 +23,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var meViewModel: MeViewModel
+    private lateinit var currentUser: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -36,7 +38,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
-
+        currentUser = meViewModel.getLoginUser()?.email!!
         binding.ibtnPost.setOnClickListener(this)
         binding.ibtnShop.setOnClickListener(this)
         binding.ibtnShop.setOnClickListener(this)
@@ -45,13 +47,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.ibtn_post ->{
-                val name = meViewModel.getLoginUser()!!.name
-
-                Toast.makeText(requireContext(), "Go to post page --> ${name}", Toast.LENGTH_SHORT).show()
-            }
+            R.id.ibtn_post ->
+                Navigation.findNavController(v).navigate(R.id.navigation_posting)
             R.id.ibtn_shop ->
-                NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.navigation_shop)
+                Navigation.findNavController(v).navigate(R.id.navigation_shop)
             R.id.ibtn_news ->
                 Toast.makeText(requireContext(), "Go to news page", Toast.LENGTH_SHORT).show()
             R.id.ibtn_others ->
