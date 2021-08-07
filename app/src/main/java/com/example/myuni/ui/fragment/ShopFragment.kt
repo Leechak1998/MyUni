@@ -87,7 +87,7 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
             goodsAdapter.notifyDataSetChanged()
             binding.lvGoods.setSelection(it.size)
         })
-        goodsAdapter = GoodsAdapter(requireContext(), R.layout.posting_item, goodsList)
+        goodsAdapter = GoodsAdapter(requireContext(), R.layout.goods_item, goodsList)
         binding.goodsAdapter = goodsAdapter
 
 
@@ -115,9 +115,11 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
             R.id.btn_search ->{
                 if (binding.btnSearch.text == "GO"){
                     val content = binding.etInput.text.toString()
-                    binding.btnSearch.text = "Clear"
-                    if (!goodsViewModel.searchGoods(content))
-                        toast("No related products")
+                    if (content != ""){
+                        binding.btnSearch.text = "Clear"
+                        if (!goodsViewModel.searchGoods(content))
+                            toast("No related products")
+                    }
                 } else if (binding.btnSearch.text == "Clear"){
                     binding.etInput.text.clear()
                     binding.btnSearch.text = "GO"
@@ -133,7 +135,7 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
                     binding.btnUni.background.setColorFilter(Color.parseColor("gray"), PorterDuff.Mode.DARKEN)
                     if (!goodsViewModel.selectedByOptions()[0]){
                         toast("No related products")
-                        initBtn()
+                        //initBtn()
                     }
                 }
             }
@@ -157,7 +159,7 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
                         binding.btnFriends.background.setColorFilter(Color.parseColor("gray"), PorterDuff.Mode.DARKEN)
                         if (!goodsViewModel.selectedByOptions()[1]){
                             toast("No related products")
-                            initBtn()
+                            //initBtn()
                         }
                     }
                     else{
@@ -166,7 +168,7 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
                         binding.btnFriends.background.setColorFilter(Color.parseColor("gray"), PorterDuff.Mode.DARKEN)
                         if (!goodsViewModel.selectedByOptions()[1]){
                             toast("No related products")
-                            initBtn()
+                            //initBtn()
                         }
 
                     }

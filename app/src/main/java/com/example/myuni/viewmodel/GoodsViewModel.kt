@@ -90,7 +90,6 @@ class GoodsViewModel : ViewModel() {
 
                     for (key in value!!.keys){
                         val g: Goods? = value[key]
-
                         if (currentUser == g!!.owner)
                             _sellingList.value = _sellingList.value?.plus(g) as ArrayList<Goods>
                         else
@@ -157,6 +156,7 @@ class GoodsViewModel : ViewModel() {
                         switch1 = true
                     }
                 }
+                _goodsList.value = ArrayList()
                 if (switch1) {
                     switchList(tempList1)
                 }
@@ -174,6 +174,7 @@ class GoodsViewModel : ViewModel() {
                     switch2 = true
                 }
             }
+            _goodsList.value = ArrayList()
             if (switch2) {
                 switchList(tempList2)
             }
@@ -187,6 +188,7 @@ class GoodsViewModel : ViewModel() {
                     }
                 }
             }
+            _goodsList.value = ArrayList()
             if (switch2) {
                 switchList(tempList2)
             }
@@ -205,7 +207,7 @@ class GoodsViewModel : ViewModel() {
     }
 
     private fun switchList(tempList: ArrayList<Goods>){
-        _goodsList.value!!.clear()
+//        _goodsList.value!!.clear()
         for (i in tempList.indices) {
             _goodsList.value = _goodsList.value?.plus(tempList[i]) as ArrayList<Goods>
         }

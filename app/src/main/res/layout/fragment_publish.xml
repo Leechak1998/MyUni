@@ -48,7 +48,7 @@
                     android:id="@+id/rb_entertainment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="entertainment" />
+                    android:text="Entertainment" />
 
             </RadioGroup>
 

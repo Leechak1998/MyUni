@@ -23,7 +23,7 @@
                 android:id="@+id/iv_publisherPic"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:setImageBitmap="@{posting.publisherPic}" />
+                app:setImageBitmap1="@{posting.publisherPic}" />
 
             <TextView
                 android:id="@+id/tv_publisherName"
@@ -68,7 +68,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:setImageBitmap="@{posting.image1}"/>
+                app:setImageBitmap1="@{posting.image1}"/>
 
             <Space
                 android:layout_width="0dp"
@@ -79,7 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:setImageBitmap="@{posting.image2}"/>
+                app:setImageBitmap1="@{posting.image2}"/>
 
             <Space
                 android:layout_width="0dp"
@@ -90,8 +90,14 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:setImageBitmap="@{posting.image3}"/>
+                app:setImageBitmap1="@{posting.image3}"/>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#949494"
+            android:layout_marginTop="5dp"/>
 
     </LinearLayout>
 

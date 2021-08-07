@@ -52,11 +52,11 @@
                 android:background="#FF909090" />
 
             <Button
-                android:id="@+id/btnPassword"
+                android:id="@+id/btnPosting"
                 android:layout_width="wrap_content"
                 android:layout_height="70dp"
                 android:background="@drawable/btn_background"
-                android:text="Password"
+                android:text="My Postings"
                 android:textAllCaps="false"
                 android:textSize="20dp" />
 
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="70dp"
                 android:background="@drawable/btn_background"
-                android:text="My Order"
+                android:text="My Orders"
                 android:textAllCaps="false"
                 android:textSize="20dp" />
 

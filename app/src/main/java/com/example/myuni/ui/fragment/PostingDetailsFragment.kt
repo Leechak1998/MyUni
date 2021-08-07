@@ -19,9 +19,11 @@ import com.example.myuni.R
 import com.example.myuni.adapter.CommentAdapter
 import com.example.myuni.databinding.FragmentPostingDetailsBinding
 import com.example.myuni.model.Comment
+import com.example.myuni.model.Contacts
 import com.example.myuni.model.Posting
 import com.example.myuni.utils.BitmapUtils
 import com.example.myuni.utils.TimeUtils
+import com.example.myuni.viewmodel.MeViewModel
 import com.example.myuni.viewmodel.PostingViewModel
 import com.example.myuni.viewmodel.UtilViewModel
 import org.jetbrains.anko.support.v4.toast
@@ -31,9 +33,11 @@ class PostingDetailsFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentPostingDetailsBinding
     private lateinit var postingViewModel: PostingViewModel
     private lateinit var utilViewModel: UtilViewModel
+    private lateinit var meViewModel: MeViewModel
     private lateinit var commentAdapter: CommentAdapter
     private var commentsList = ArrayList<Comment>()
     private lateinit var posting: Posting
+    private lateinit var currentUser: Contacts
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,18 +48,13 @@ class PostingDetailsFragment : Fragment(), View.OnClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_posting_details, container, false)
         initViewModel()
         init()
-
-        postingViewModel.commentsList.observe(viewLifecycleOwner, Observer {
-            commentsList.clear()
-            commentsList.addAll(it)
-            commentAdapter.notifyDataSetChanged()
-        })
         return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun init() {
         utilViewModel.setNavBarStatus(true)
+        currentUser = meViewModel.getLoginUser()!!
 
         val bundle = requireArguments()
         posting = bundle.getSerializable("posting")!! as Posting
@@ -82,12 +81,19 @@ class PostingDetailsFragment : Fragment(), View.OnClickListener {
         binding.rvCommentsList.isNestedScrollingEnabled = false
         postingViewModel.initCommentsList(posting.postingNum.toString())
 
+        postingViewModel.commentsList.observe(viewLifecycleOwner, Observer {
+            commentsList.clear()
+            commentsList.addAll(it)
+            commentAdapter.notifyDataSetChanged()
+        })
+
         binding.btnAddComment.setOnClickListener(this)
     }
 
     private fun initViewModel() {
         postingViewModel = ViewModelProvider(requireActivity()).get(PostingViewModel::class.java)
         utilViewModel = ViewModelProvider(requireActivity()).get(UtilViewModel::class.java)
+        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -110,7 +116,8 @@ class PostingDetailsFragment : Fragment(), View.OnClickListener {
                 publishBtn.setOnClickListener{
                     if (review.text.toString() != ""){
                         val time = TimeUtils.getCurrentTime(LocalDateTime.now())
-                        val newComment = Comment(posting.publisherName, posting.publisherPic, review.text.toString(), time)
+
+                        val newComment = Comment(currentUser.name, currentUser.imageId, review.text.toString(), time)
                         postingViewModel.publishComment(posting, newComment)
                         toast("Publish successfully!")
                         buttonDialog.dismiss()
@@ -122,5 +129,7 @@ class PostingDetailsFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
+
 
 }

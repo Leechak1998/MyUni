@@ -40,7 +40,7 @@ class MeFragment : Fragment(), View.OnClickListener {
         currentUser = meViewModel.getLoginUser()!!
 
         binding.btnProfile.setOnClickListener(this)
-        binding.btnPassword.setOnClickListener(this)
+        binding.btnPosting.setOnClickListener(this)
         binding.btnMyOrder.setOnClickListener(this)
         binding.btnOut.setOnClickListener(this)
     }
@@ -49,8 +49,8 @@ class MeFragment : Fragment(), View.OnClickListener {
         when(view?.id){
             R.id.btnProfile ->
                 Toast.makeText(requireContext(), "Go to profile page", Toast.LENGTH_SHORT).show()
-            R.id.btnPassword ->
-                Toast.makeText(requireContext(), "Go to password page", Toast.LENGTH_SHORT).show()
+            R.id.btnPosting ->
+                Navigation.findNavController(view).navigate(R.id.navigation_myPostings)
             R.id.btnMyOrder ->
                 Navigation.findNavController(view).navigate(R.id.navigation_myOrder)
             R.id.btnOut -> {

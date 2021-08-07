@@ -129,4 +129,10 @@
         android:label="Posting"
         tools:layout="@layout/fragment_posting_details" />
 
+    <fragment
+        android:id="@+id/navigation_myPostings"
+        android:name="com.example.myuni.ui.fragment.MyPostingFragment"
+        android:label="MyPostings"
+        tools:layout="@layout/fragment_my_posting" />
+
 </navigation>

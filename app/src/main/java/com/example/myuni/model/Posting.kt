@@ -19,7 +19,7 @@ class Posting constructor(postingNum: String?, category: String?, publisherName:
     val time = time
 
     companion object {
-        @BindingAdapter("app:setImageBitmap")
+        @BindingAdapter("app:setImageBitmap1")
         @JvmStatic
         fun setImageViewBitmap1(imageView: ImageView, string: String) {
             imageView.setImageBitmap(BitmapUtils.convertStringToIcon(string))
