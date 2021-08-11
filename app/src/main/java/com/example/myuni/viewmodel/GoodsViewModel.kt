@@ -148,7 +148,7 @@ class GoodsViewModel : ViewModel() {
         var switch1 = false
         if (optionUni != ""){
             if (optionUni != "All Universities") {
-                val suffix = Uni.uniMap[optionUni]
+                val suffix = Uni.uniNameMap[optionUni]
                 val regex = Regex(suffix!!)
                 for (i in _goodsList.value!!.indices) {
                     if (regex.containsMatchIn(_goodsList.value!![i].owner)) {

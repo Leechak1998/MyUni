@@ -36,7 +36,7 @@ class ChatFragment : Fragment() {
 
         init()
 
-        chatViewModel.messageList.observe(viewLifecycleOwner, Observer {
+        chatViewModel._messageList.observe(viewLifecycleOwner, Observer {
             println("=============")
             for (i in 0 until it.size){
                 println("-- " + it[i].content + " -- " + it[i].type)
@@ -75,7 +75,6 @@ class ChatFragment : Fragment() {
         sender = meViewModel.getLoginUser()!!.email!!
 
         chatViewModel = ViewModelProvider(requireActivity()).get(ChatViewModel::class.java)
-        chatViewModel.initCountAndList()
         chatViewModel.initChatList(sender, receiver)
 
         adapter = MessageAdapter(requireContext(), R.layout.message_item, msgList)

@@ -17,22 +17,18 @@ class ChatViewModel : ViewModel(){
     private lateinit var dbRef: DatabaseReference
     private lateinit var dbRefReceiver: DatabaseReference
     private var database = FirebaseDatabase.getInstance()
-    private val _messageList = MutableLiveData<ArrayList<Message>>().apply {
+    val _messageList = MutableLiveData<ArrayList<Message>>().apply {
         value = object : ArrayList<Message>(){}
     }
-    val messageList: LiveData<ArrayList<Message>> = _messageList
-    private var count: Int = 0
+//    val messageList: LiveData<ArrayList<Message>> = _messageList
     private var sender: String = ""
     private var receiver: String = ""
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendMessage(content: String){
         dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(sender)).child(EncodeUtils.EncodeString(receiver))
         var map: HashMap<String, Any> = HashMap<String, Any>()
         val message = Message(content, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
-        if (count != 0)
-            _messageList.value = _messageList.value!!.plus(message) as ArrayList<Message>
         map[EncodeUtils.EncodeString(message.time!!)] = message
         dbRef.updateChildren(map)
 
@@ -46,11 +42,12 @@ class ChatViewModel : ViewModel(){
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun initChatList(sender: String, receiver: String){
+        _messageList.value!!.clear()
         this.sender = sender
         this.receiver = receiver
         println("sender:$sender  receiver:$receiver")
-        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(sender)).child(EncodeUtils.EncodeString(receiver))
 
+        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(sender)).child(EncodeUtils.EncodeString(receiver))
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()){
@@ -58,23 +55,32 @@ class ChatViewModel : ViewModel(){
                     val t  = object : GenericTypeIndicator<HashMap<String, Message>>() {}
                     var value = dataSnapshot.getValue(t)
 
-                    if (count == 0){
-                        var temp = ArrayList<Message>()
-                        for ((c, key) in value!!.keys.withIndex()){
-                            val m: Message? = value[key]
-                            temp.add(m!!)
-                        }
-                        _messageList.value = _messageList.value!!.plus(TimeUtils.orderChatList(temp)) as ArrayList<Message>
-                        count++
-                    }else{
-                        //遍历map,只添加最新的消息
-                        for ((c, key) in value!!.keys.withIndex()){
-                            if (c == value.size){
-                                val m: Message? = value[key]
-                                _messageList.value = _messageList.value!!.plus(m) as ArrayList<Message>
-                            }
-                        }
+
+                    var temp = ArrayList<Message>()
+                    for ((c, key) in value!!.keys.withIndex()){
+                        val m: Message? = value[key]
+                        temp.add(m!!)
                     }
+                    _messageList.value = _messageList.value!!.plus(TimeUtils.orderChatList(temp)) as ArrayList<Message>
+
+//                    if (count == 0){
+//                        var temp = ArrayList<Message>()
+//                        for ((c, key) in value!!.keys.withIndex()){
+//                            val m: Message? = value[key]
+//                            temp.add(m!!)
+//                        }
+//                        _messageList.value = _messageList.value!!.plus(TimeUtils.orderChatList(temp)) as ArrayList<Message>
+//                        count++
+//                    }else{
+//                        //遍历map,只添加最新的消息
+//                        for ((c, key) in value!!.keys.withIndex()){
+//                            if (c == value.size){
+//                                val m: Message? = value[key]
+//                                println("------------new message: ${m!!.content}------------")
+//                                _messageList.value = _messageList.value!!.plus(m) as ArrayList<Message>
+//                            }
+//                        }
+//                    }
 
                 }else{
                     println("none data...")
@@ -87,10 +93,6 @@ class ChatViewModel : ViewModel(){
         })
     }
 
-    fun initCountAndList(){
-        _messageList.value!!.clear()
-        count = 0
-    }
 
 
 }

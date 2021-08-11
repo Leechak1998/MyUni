@@ -135,4 +135,16 @@
         android:label="MyPostings"
         tools:layout="@layout/fragment_my_posting" />
 
+    <fragment
+        android:id="@+id/navigation_news"
+        android:name="com.example.myuni.ui.fragment.NewsFragment"
+        android:label="News"
+        tools:layout="@layout/fragment_news" />
+
+    <fragment
+        android:id="@+id/navigation_newsDetails"
+        android:name="com.example.myuni.ui.fragment.NewsDetailsFragment"
+        android:label="NewsDetails"
+        tools:layout="@layout/fragment_news_details" />
+
 </navigation>

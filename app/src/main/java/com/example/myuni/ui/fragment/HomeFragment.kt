@@ -52,7 +52,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             R.id.ibtn_shop ->
                 Navigation.findNavController(v).navigate(R.id.navigation_shop)
             R.id.ibtn_news ->
-                Toast.makeText(requireContext(), "Go to news page", Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(v).navigate(R.id.navigation_news)
             R.id.ibtn_others ->
                 Toast.makeText(requireContext(), "Go to others page", Toast.LENGTH_SHORT).show()
 
