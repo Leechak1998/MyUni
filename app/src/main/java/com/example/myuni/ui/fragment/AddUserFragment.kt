@@ -81,7 +81,6 @@ class AddUserFragment : Fragment() {
     private fun checkUserList(newUser: Contacts): Boolean{
         val list = contactsViewModel.contactsList.value
         for (i in 0 until list!!.size){
-            println("${newUser.email} <=> ${list[i].email}")
             if (newUser.email == list[i].email){
                 return true
             }

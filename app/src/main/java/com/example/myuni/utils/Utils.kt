@@ -19,6 +19,23 @@ class Utils{
         const val REQUEST_IMAGE_CAPTURE = 1
         const val PHOTO_REQUEST_GALLERY = 2
 
+        val countriesName = listOf("China",
+                                                "Korea",
+                                                "Japan",
+                                                "Philippines",
+                                                "Vietnam",
+                                                "India",
+                                                "Finland",
+                                                "Sweden",
+                                                "Russia",
+                                                "Ukraine",
+                                                "Poland",
+                                                "Germany",
+                                                "Switzerland",
+                                                "Britain",
+                                                "Ireland",
+                                                "France")
+
         fun closeKeyBoard(content: Context) {
             val imm = content.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)

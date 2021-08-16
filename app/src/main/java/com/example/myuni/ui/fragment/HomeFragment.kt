@@ -41,8 +41,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
         currentUser = meViewModel.getLoginUser()?.email!!
         binding.ibtnPost.setOnClickListener(this)
         binding.ibtnShop.setOnClickListener(this)
-        binding.ibtnShop.setOnClickListener(this)
-        binding.ibtnShop.setOnClickListener(this)
+        binding.ibtnNews.setOnClickListener(this)
+        binding.ibtnCommunity.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -53,9 +53,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 Navigation.findNavController(v).navigate(R.id.navigation_shop)
             R.id.ibtn_news ->
                 Navigation.findNavController(v).navigate(R.id.navigation_news)
-            R.id.ibtn_others ->
-                Toast.makeText(requireContext(), "Go to others page", Toast.LENGTH_SHORT).show()
-
+            R.id.ibtn_community ->
+                Navigation.findNavController(v).navigate(R.id.navigation_community)
         }
     }
 

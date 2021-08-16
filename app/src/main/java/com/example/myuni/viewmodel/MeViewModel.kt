@@ -39,7 +39,7 @@ class MeViewModel : ViewModel() {
 
         //初始化注册对话列表
         var map1: HashMap<String, Any> = HashMap<String, Any>()
-        val message = Message(null, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
+        val message = Message(null, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()), loginUser!!.imageId)
         //val message = Message()
         dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(contact.email!!)).child(EncodeUtils.EncodeString(contact.email!!))
         map1[EncodeUtils.EncodeString(message.time!!)] = message

@@ -2,9 +2,9 @@ package com.example.myuni.viewmodel
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myuni.model.Contacts
 import com.example.myuni.model.Message
 import com.example.myuni.utils.EncodeUtils
 import com.example.myuni.utils.TimeUtils
@@ -21,69 +21,80 @@ class ChatViewModel : ViewModel(){
         value = object : ArrayList<Message>(){}
     }
 //    val messageList: LiveData<ArrayList<Message>> = _messageList
-    private var sender: String = ""
-    private var receiver: String = ""
+    private lateinit var sender: Contacts
+    private lateinit var receiver: Contacts
+    private var isListening = false
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendMessage(content: String){
-        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(sender)).child(EncodeUtils.EncodeString(receiver))
+        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(sender.email!!)).child(EncodeUtils.EncodeString(receiver.email!!))
         var map: HashMap<String, Any> = HashMap<String, Any>()
-        val message = Message(content, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()))
+        val message = Message(content, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()), sender.imageId)
         map[EncodeUtils.EncodeString(message.time!!)] = message
         dbRef.updateChildren(map)
 
-        dbRefReceiver = database.getReference("conversationList").child(EncodeUtils.EncodeString(receiver)).child(EncodeUtils.EncodeString(sender))//之后动态获取用户的邮箱
+        dbRefReceiver = database.getReference("conversationList").child(EncodeUtils.EncodeString(receiver.email!!)).child(EncodeUtils.EncodeString(sender.email!!))
         var mapReceived: HashMap<String, Any> = HashMap<String, Any>()
-        val messageReceived = Message(content, Message.TYPE_RECEIVED, TimeUtils.getCurrentTime(LocalDateTime.now()))
+        val messageReceived = Message(content, Message.TYPE_RECEIVED, TimeUtils.getCurrentTime(LocalDateTime.now()), sender.imageId)
         mapReceived[EncodeUtils.EncodeString(message.time!!)] = messageReceived
         dbRefReceiver.updateChildren(mapReceived)
+
+        isListening = true
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun sendGroupMessage(content: String, userList: List<Contacts>){
+
+        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(sender.email!!)).child(receiver.email!!)
+        var map: HashMap<String, Any> = HashMap<String, Any>()
+        val message = Message(content, Message.TYPE_SEND, TimeUtils.getCurrentTime(LocalDateTime.now()), sender.imageId)
+        map[EncodeUtils.EncodeString(message.time!!)] = message
+        dbRef.updateChildren(map)
+
+        for (i in userList.indices){
+            if (sender.email != userList[i].email){
+                dbRefReceiver = database.getReference("conversationList").child(EncodeUtils.EncodeString(userList[i].email!!)).child(receiver.email!!)
+                var mapReceived: HashMap<String, Any> = HashMap<String, Any>()
+                val messageReceived = Message(content, Message.TYPE_RECEIVED, TimeUtils.getCurrentTime(LocalDateTime.now()), sender.imageId)
+                mapReceived[EncodeUtils.EncodeString(message.time!!)] = messageReceived
+                dbRefReceiver.updateChildren(mapReceived)
+            }
+        }
+
+        isListening = true
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun initChatList(sender: String, receiver: String){
+    fun initChatList(sender: Contacts, receiver: Contacts){
         _messageList.value!!.clear()
         this.sender = sender
         this.receiver = receiver
-        println("sender:$sender  receiver:$receiver")
+        isListening = true
+        println("===sender:${this.sender.email}  receiver:${this.receiver.email}===")
 
-        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(sender)).child(EncodeUtils.EncodeString(receiver))
+        dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(this.sender.email!!)).child(EncodeUtils.EncodeString(this.receiver.email!!))
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()){
-                    println("Chat Data change!")
-                    val t  = object : GenericTypeIndicator<HashMap<String, Message>>() {}
-                    var value = dataSnapshot.getValue(t)
+                if (isListening){
+                    if (dataSnapshot.exists()){
+                        println("Chat Data change!")
+                        val t  = object : GenericTypeIndicator<HashMap<String, Message>>() {}
+                        var value = dataSnapshot.getValue(t)
 
+                        _messageList.value?.clear()
+                        var temp = ArrayList<Message>()
 
-                    var temp = ArrayList<Message>()
-                    for ((c, key) in value!!.keys.withIndex()){
-                        val m: Message? = value[key]
-                        temp.add(m!!)
+                        for ((c, key) in value!!.keys.withIndex()){
+                            val m: Message? = value[key]
+                            temp.add(m!!)
+                        }
+
+                        //Sort the chats in chronological order
+                        _messageList.value = _messageList.value!!.plus(TimeUtils.orderChatList(temp)) as ArrayList<Message>
+                        isListening = false
+                    }else{
+                        println("none data...")
                     }
-                    _messageList.value = _messageList.value!!.plus(TimeUtils.orderChatList(temp)) as ArrayList<Message>
-
-//                    if (count == 0){
-//                        var temp = ArrayList<Message>()
-//                        for ((c, key) in value!!.keys.withIndex()){
-//                            val m: Message? = value[key]
-//                            temp.add(m!!)
-//                        }
-//                        _messageList.value = _messageList.value!!.plus(TimeUtils.orderChatList(temp)) as ArrayList<Message>
-//                        count++
-//                    }else{
-//                        //遍历map,只添加最新的消息
-//                        for ((c, key) in value!!.keys.withIndex()){
-//                            if (c == value.size){
-//                                val m: Message? = value[key]
-//                                println("------------new message: ${m!!.content}------------")
-//                                _messageList.value = _messageList.value!!.plus(m) as ArrayList<Message>
-//                            }
-//                        }
-//                    }
-
-                }else{
-                    println("none data...")
                 }
             }
 
@@ -92,7 +103,4 @@ class ChatViewModel : ViewModel(){
             }
         })
     }
-
-
-
 }

@@ -147,4 +147,16 @@
         android:label="NewsDetails"
         tools:layout="@layout/fragment_news_details" />
 
+    <fragment
+        android:id="@+id/navigation_community"
+        android:name="com.example.myuni.ui.fragment.CommunityFragment"
+        android:label="Community"
+        tools:layout="@layout/fragment_community" />
+
+    <fragment
+        android:id="@+id/navigation_add_community"
+        android:name="com.example.myuni.ui.fragment.AddCommunityFragment"
+        android:label="Add Community"
+        tools:layout="@layout/fragment_add_community" />
+
 </navigation>

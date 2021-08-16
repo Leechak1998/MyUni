@@ -2,6 +2,7 @@ package com.example.myuni.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myuni.model.Community
 import com.example.myuni.model.Contacts
 import com.example.myuni.utils.EncodeUtils
 import com.google.firebase.database.*
@@ -14,6 +15,7 @@ class ContactsViewModel : ViewModel() {
     val contactsList: MutableLiveData<ArrayList<Contacts>> = _contactsList
     private var _newUser = MutableLiveData<ArrayList<Contacts>>().apply { value = object : ArrayList<Contacts>(){} }
     val newUser = _newUser
+//    var receiver = MutableLiveData<Contacts>()
 
 
     fun initContactsList(email: String){
@@ -85,5 +87,28 @@ class ContactsViewModel : ViewModel() {
         map[EncodeUtils.EncodeString(c.email!!)] = c
         dbRef.updateChildren(map)
     }
+
+    fun addGroup(community: Community, currentUser: Contacts){
+        dbRef = database.getReference("contactsList").child(EncodeUtils.EncodeString(currentUser.email!!))
+        var map: HashMap<String, Any> = HashMap<String, Any>()
+        //name: String?, imageId: String?, email: String?, password: String?, uni: String
+        val c = Contacts()
+        c.name = community.name
+        c.imageId = community.profile
+        c.email = community.communityNum
+        map[community.communityNum] = c
+        dbRef.updateChildren(map)
+    }
+
+//    fun getUser(email: String){
+//        var contacts: Contacts
+//        database.getReference("usersList").child(EncodeUtils.EncodeString(email)).get().addOnSuccessListener {
+////            val t = object : GenericTypeIndicator<HashMap<String, Contacts>>() {}
+////            var value = it.getValue(t)
+//            receiver.value = it.value as Contacts
+//        }.addOnFailureListener {
+//
+//        }
+//    }
 
 }

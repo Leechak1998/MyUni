@@ -51,7 +51,6 @@ class ContactsFragment : Fragment() {
             contactsList.addAll(it)
             adapter.notifyDataSetChanged()
             binding.lvContacts.setSelection(it.size)
-
 //            println("更新用户列表")
 //            for (i in contactsList.indices){
 //                println("------$i----${contactsList[i].name}")
@@ -61,15 +60,17 @@ class ContactsFragment : Fragment() {
         adapter = ContactsAdapter(requireContext(), R.layout.contacts_item, contactsList);
         binding.adapter = adapter;
 
-
         binding.lvContacts.setOnItemClickListener { _,_ ,position,_ ->
             val contacts = contactsList[position]
+//            contactsViewModel.getUser(contacts.email!!)
             val bundle = Bundle().also {
-                it.putString("email", contacts.email)
+                it.putSerializable("receiver", contacts)
             }
             NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_contacts_to_navigation_chat, bundle)
         }
 
         return binding.root
     }
+
+
 }

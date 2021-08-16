@@ -95,7 +95,7 @@
                 android:layout_weight="0.1" />
 
             <ImageButton
-                android:id="@+id/ibtn_others"
+                android:id="@+id/ibtn_community"
                 android:layout_width="0dp"
                 android:layout_height="160dp"
                 android:layout_weight="1"

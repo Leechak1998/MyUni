@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="community"
+            type="com.example.myuni.model.Community" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4">
+
+            <ImageView
+                android:id="@+id/iv_community_profile"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:setImageBitmap2="@{community.profile}"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_tittle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@{community.name}"
+                android:textSize="25dp"
+                android:lines="1"
+                android:ellipsize="end"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_des"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_below="@+id/tv_tittle"
+                android:text="@{community.description}"
+                android:textSize="20dp"
+                android:textColor="@color/gray"
+                android:lines="2"
+                android:ellipsize="end"
+                android:padding="10dp" />
+
+            <TextView
+                android:id="@+id/tv_nation"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_below="@+id/tv_des"
+                android:text="@{community.nationality}"
+                android:textSize="20dp"
+                android:textColor="@color/gray"
+                android:lines="2"
+                android:ellipsize="end"
+                android:padding="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

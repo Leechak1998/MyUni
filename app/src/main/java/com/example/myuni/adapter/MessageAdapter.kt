@@ -11,10 +11,11 @@ import android.widget.TextView
 import com.example.myuni.R
 import com.example.myuni.model.Contacts
 import com.example.myuni.model.Message
+import com.example.myuni.utils.BitmapUtils
 
 class MessageAdapter(context: Context, resource: Int, data: List<Message>) : ArrayAdapter<Message>(context, resource, data) {
     private val resourceId: Int = resource
-
+    private val MesData = data
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view: View
         val viewHolder: ViewHolder
@@ -30,6 +31,7 @@ class MessageAdapter(context: Context, resource: Int, data: List<Message>) : Arr
             val leftProfile:ImageView = view.findViewById(R.id.head_left)
             val rightProfile:ImageView = view.findViewById(R.id.head_right)
 
+
             viewHolder=ViewHolder(leftLayout, rightLayout, leftMessage, rightMessage, leftProfile, rightProfile)
 
             // 将ViewHolder存储在View中（即将控件的实例存储在其中）
@@ -42,12 +44,14 @@ class MessageAdapter(context: Context, resource: Int, data: List<Message>) : Arr
         val message = getItem(position)//获取当前项得contacts实例
 
         if ( message!!.type == Message.TYPE_RECEIVED ){
+            viewHolder.leftProfile.setImageBitmap(BitmapUtils.convertStringToIcon(MesData[position].profile))
             viewHolder.leftLayout.visibility = View.VISIBLE
             viewHolder.leftProfile.visibility = View.VISIBLE
             viewHolder.rightLayout.visibility = View.GONE
             viewHolder.rightProfile.visibility = View.GONE
             viewHolder.leftMessage.text = message.content
         } else if ( message!!.type == Message.TYPE_SEND ){
+            viewHolder.rightProfile.setImageBitmap(BitmapUtils.convertStringToIcon(MesData[position].profile))
             viewHolder.rightLayout.visibility = View.VISIBLE
             viewHolder.rightProfile.visibility = View.VISIBLE
             viewHolder.leftLayout.visibility = View.GONE

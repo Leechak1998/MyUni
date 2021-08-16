@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity(){
             R.id.navigation_register,
             R.id.navigation_shop,
             R.id.navigation_posting,
-            R.id.navigation_news
+            R.id.navigation_news,
+            R.id.navigation_community
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
