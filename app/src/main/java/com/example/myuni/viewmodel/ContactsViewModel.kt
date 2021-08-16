@@ -15,17 +15,13 @@ class ContactsViewModel : ViewModel() {
     val contactsList: MutableLiveData<ArrayList<Contacts>> = _contactsList
     private var _newUser = MutableLiveData<ArrayList<Contacts>>().apply { value = object : ArrayList<Contacts>(){} }
     val newUser = _newUser
-//    var receiver = MutableLiveData<Contacts>()
-
 
     fun initContactsList(email: String){
         _contactsList.value?.clear()
 
         dbRef = database.getReference("contactsList").child(EncodeUtils.EncodeString(email))
         dbRef.addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+            override fun onCancelled(error: DatabaseError) {}
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
@@ -37,8 +33,7 @@ class ContactsViewModel : ViewModel() {
                     for (key in value!!.keys){
 //                        println("---$key------${value[key]}")
                         val c: Contacts? = value[key]
-                        if (value[key]!!.email != email)
-                            _contactsList.value = _contactsList.value?.plus(c) as ArrayList<Contacts>
+                        _contactsList.value = _contactsList.value?.plus(c) as ArrayList<Contacts>
                     }
                 }
             }
@@ -64,7 +59,7 @@ class ContactsViewModel : ViewModel() {
                     for (key in value!!.keys){
                         if (email == value[key]!!.email){
                             _newUser.value?.clear()
-                            val c = Contacts(value[key]!!.name as String, value[key]!!.imageId as String, value[key]!!.email as String, value[key]!!.password as String, value[key]!!.uni as String)
+                            val c = Contacts(value[key]!!.name as String, value[key]!!.imageId as String, value[key]!!.email as String, value[key]!!.password as String, value[key]!!.uni as String, value[key]!!.nation as String)
                             _newUser.value = _newUser.value?.plus(c) as ArrayList<Contacts>
                             break
                         }

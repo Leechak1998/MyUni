@@ -19,10 +19,12 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.myuni.R
 import com.example.myuni.databinding.FragmentAddCommunityBinding
 import com.example.myuni.model.Community
+import com.example.myuni.model.Contacts
 import com.example.myuni.utils.BitmapUtils
 import com.example.myuni.utils.OrderUtils
 import com.example.myuni.utils.Utils
 import com.example.myuni.viewmodel.CommunityViewModel
+import com.example.myuni.viewmodel.ContactsViewModel
 import com.example.myuni.viewmodel.MeViewModel
 import org.jetbrains.anko.support.v4.selector
 import java.io.FileNotFoundException
@@ -31,8 +33,9 @@ import java.io.InputStream
 class AddCommunityFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentAddCommunityBinding
     private lateinit var communityViewModel: CommunityViewModel
+    private lateinit var contactsViewModel: ContactsViewModel
     private lateinit var meViewModel: MeViewModel
-    private lateinit var currentUser: String
+    private lateinit var currentUser: Contacts
     private var groupProfile: String? = null
     private var groupName: String? = null
     private var groupDes: String? = null
@@ -68,11 +71,12 @@ class AddCommunityFragment : Fragment(), View.OnClickListener {
 
     private fun initViewModel() {
         communityViewModel = ViewModelProvider(requireActivity()).get(CommunityViewModel::class.java)
+        contactsViewModel = ViewModelProvider(requireActivity()).get(ContactsViewModel::class.java)
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
     }
 
     private fun init() {
-        currentUser = meViewModel.getLoginUser()!!.email!!
+        currentUser = meViewModel.getLoginUser()!!
 
         //set listener
         binding.tvCountry.setOnClickListener(this)
@@ -93,8 +97,9 @@ class AddCommunityFragment : Fragment(), View.OnClickListener {
 
     private fun createCommunity(){
         val communityNum = OrderUtils.getOrderNumber()
-        val community = Community(communityNum, groupProfile!!, groupName!!, groupDes!!, nationality!!, currentUser)
-        communityViewModel.createCommunity(community)
+        val community = Community(communityNum, groupProfile!!, groupName!!, groupDes!!, nationality!!, currentUser.email!!)
+        communityViewModel.createCommunity(community, currentUser)
+        contactsViewModel.addGroup(community, currentUser)
     }
 
     private fun showCamera(){

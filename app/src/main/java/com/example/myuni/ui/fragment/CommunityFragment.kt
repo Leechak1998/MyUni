@@ -26,6 +26,7 @@ class CommunityFragment : Fragment(), CommunityAdapter.RecyclerViewItemClickList
     private lateinit var meViewModel: MeViewModel
     private lateinit var contactViewModel: ContactsViewModel
     private var communityList = ArrayList<Community>()
+    private val userList = ArrayList<Contacts>()
     private lateinit var communityAdapter: CommunityAdapter
     private lateinit var currentUser: Contacts
 
@@ -79,16 +80,25 @@ class CommunityFragment : Fragment(), CommunityAdapter.RecyclerViewItemClickList
 
     override fun onItemClickListener(position: Int) {
         val c = communityList[position]
+        val boolean = communityViewModel.isGroupMember(c.communityNum)
+
         alert(c.description, c.name) {
             positiveButton("Join!") {
-                //add community
-                contactViewModel.addGroup(c, currentUser)
-                communityViewModel.addCommunity(c, currentUser)
-                toast("Successfully!")
+                //check if the user is already in the community
+                if (boolean){
+                    alert("You are already in this community!", "Tips") {
+                        positiveButton("Yes"){ }
+                    }.show()
+                }else{
+                    //add community
+                    contactViewModel.addGroup(c, currentUser)
+                    communityViewModel.addCommunity(c, currentUser)
+                    toast("Successfully!")
+                }
+
+
             }
             negativeButton("No") { }
         }.show()
     }
-
-
 }

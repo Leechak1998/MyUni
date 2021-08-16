@@ -5,12 +5,13 @@ import androidx.databinding.BindingAdapter
 import com.example.myuni.utils.BitmapUtils
 import java.io.Serializable
 
-class Contacts constructor(name: String?, imageId: String?, email: String?, password: String?, uni: String): Serializable{
+class Contacts constructor(name: String?, imageId: String?, email: String?, password: String?, uni: String, nation: String): Serializable{
     var name: String? = name
     var imageId: String? = imageId
     var email: String? = email
     var password: String? = password
     var uni: String? = uni
+    var nation: String? = nation
 
     companion object {
         @BindingAdapter("app:setImageBitmap")
@@ -20,6 +21,6 @@ class Contacts constructor(name: String?, imageId: String?, email: String?, pass
         }
     }
 
-    constructor():this("",null,"", "", "")
+    constructor():this("",null,"", "", "", "")
 
 }

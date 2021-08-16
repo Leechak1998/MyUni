@@ -76,38 +76,43 @@
             <LinearLayout
                 android:id="@+id/ly"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_height="150dp"
+                android:orientation="horizontal"
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_below="@id/et_description">
 
                 <ImageView
                     android:id="@+id/iv_image1"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:background="@drawable/imageview_background"
                     android:src="@drawable/ic_addpic_add_50dp"/>
 
                 <Space
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"/>
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.1"/>
 
                 <ImageView
                     android:id="@+id/iv_image2"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:background="@drawable/imageview_background"
                     android:src="@drawable/ic_addpic_add_50dp" />
 
                 <Space
                     android:layout_width="0dp"
-                    android:layout_height="5dp"/>
+                    android:layout_height="0dp"
+                    android:layout_weight="0.1"/>
 
                 <ImageView
                     android:id="@+id/iv_image3"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:background="@drawable/imageview_background"
                     android:src="@drawable/ic_addpic_add_50dp" />
             </LinearLayout>

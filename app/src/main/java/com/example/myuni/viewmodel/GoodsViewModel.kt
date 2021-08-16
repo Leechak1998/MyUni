@@ -21,7 +21,7 @@ class GoodsViewModel : ViewModel() {
     var optionUni = ""
     var optionFri = ""
     var optionFris = ArrayList<String>()
-    var optionDis = ""
+    var optionNat = ""
 
     fun initGoodsList(){
         dbRef = database.getReference("goodsList").child("sellingList")
@@ -141,7 +141,7 @@ class GoodsViewModel : ViewModel() {
     }
 
     fun selectedByOptions(): List<Boolean>{
-        println("已经选择的选项：--$optionUni-- , --$optionFri-- , --$optionDis-- , --$optionFris--")
+        println("已经选择的选项：--$optionUni-- , --$optionFri-- , --$optionNat-- , --$optionFris--")
         initGList()
         //filter university option
         var tempList1 = ArrayList<Goods>()
@@ -194,9 +194,23 @@ class GoodsViewModel : ViewModel() {
             }
         }
 
-        //filter distance option
+        //filter nationality option
+        var tempList3 = ArrayList<Goods>()
+        var switch3 = false
+        if (optionNat != ""){
+            for (i in _goodsList.value!!.indices){
+                if (optionNat == _goodsList.value!![i].nation){
+                    tempList3.add(_goodsList.value!![i])
+                    switch3 = true
+                }
+            }
+            _goodsList.value = ArrayList()
+            if (switch3) {
+                switchList(tempList3)
+            }
+        }
 
-        return listOf(switch1, switch2)
+        return listOf(switch1, switch2, switch3)
     }
 
     fun initGList(){

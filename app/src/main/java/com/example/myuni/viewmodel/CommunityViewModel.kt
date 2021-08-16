@@ -14,7 +14,6 @@ import java.time.LocalDateTime
 
 class CommunityViewModel: ViewModel() {
     private lateinit var dbRef: DatabaseReference
-    private lateinit var dbRefReceiver: DatabaseReference
     private var database = FirebaseDatabase.getInstance()
     val communityList = MutableLiveData<ArrayList<Community>>().apply {
         value = object : ArrayList<Community>(){}
@@ -24,7 +23,6 @@ class CommunityViewModel: ViewModel() {
     }
 
     fun initCommunityList(){
-
         dbRef = database.getReference("communityList")
         dbRef.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -44,11 +42,13 @@ class CommunityViewModel: ViewModel() {
         })
     }
 
-    fun createCommunity(community: Community){
+    fun createCommunity(community: Community, currentUser: Contacts){
         dbRef = database.getReference("communityList")
         var map: HashMap<String, Any> = HashMap<String, Any>()
         map[community.communityNum] = community
         dbRef.updateChildren(map)
+
+        addCommunity(community, currentUser)
     }
 
     fun addCommunity(community: Community, currentUser: Contacts){
@@ -73,6 +73,17 @@ class CommunityViewModel: ViewModel() {
         }.addOnFailureListener {
             Log.e("firebase", "Error getting data", it)
         }
-
     }
+
+    fun isGroupMember(groupNum: String): Boolean{
+        getCommunityUsersList(groupNum)
+
+        for (i in communityUserList.value!!.indices){
+            if (communityUserList.value!![i].email == "test@soton.ac.uk")
+                return true
+        }
+        return false
+    }
+
+
 }

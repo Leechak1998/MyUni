@@ -196,16 +196,16 @@ class SellFragment : Fragment() {
             else
                 ""
 
-            val owner = meViewModel.getLoginUser()?.email!!
+            val currentUser = meViewModel.getLoginUser()!!
             val orderNumber: String = if (orderNum.isNotEmpty())
                 orderNum
             else
                 OrderUtils.getOrderNumber()
 
             val newGood : Goods = if (binding.ivPhoto2.drawable != null){
-                Goods(tittle, price, des, img1, img2, owner, orderNumber)
+                Goods(tittle, price, des, img1, img2, currentUser.email!!, currentUser.nation!!, orderNumber)
             } else{
-                Goods(tittle, price, des, img1, img2, owner, orderNumber)
+                Goods(tittle, price, des, img1, img2, currentUser.email!!, currentUser.nation!!, orderNumber)
 
             }
 

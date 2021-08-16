@@ -6,7 +6,7 @@ import com.example.myuni.utils.BitmapUtils
 import java.io.Serializable
 
 
-class Goods constructor(name: String?, price: String?, description: String?, image1: String?, image2: String?, owner: String, orderNum: String): Serializable{
+class Goods constructor(name: String?, price: String?, description: String?, image1: String?, image2: String?, owner: String, nation: String, orderNum: String): Serializable{
 
     val name = name
     val price = price
@@ -14,6 +14,7 @@ class Goods constructor(name: String?, price: String?, description: String?, ima
     val image1 = image1
     val image2 = image2
     val owner = owner
+    val nation = nation
     val orderNum = orderNum
 
     companion object {
@@ -24,5 +25,5 @@ class Goods constructor(name: String?, price: String?, description: String?, ima
         }
     }
 
-    constructor():this("", "", "", null, null, "", "")
+    constructor():this("", "", "", null, null, "", "", "")
 }

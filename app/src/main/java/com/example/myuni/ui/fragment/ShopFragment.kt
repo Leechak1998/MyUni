@@ -23,6 +23,7 @@ import com.example.myuni.databinding.FragmentShopBinding
 import com.example.myuni.model.Contacts
 import com.example.myuni.model.Goods
 import com.example.myuni.utils.Uni
+import com.example.myuni.utils.Utils
 import com.example.myuni.viewmodel.ContactsViewModel
 import com.example.myuni.viewmodel.GoodsViewModel
 import com.example.myuni.viewmodel.MeViewModel
@@ -43,8 +44,7 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
     private var uniName = ""
     private var friend = ""
     private var friendsArrayList = ArrayList<Contacts>()
-    private var distance = ""
-    private var distanceList = listOf<String>("1km", "5km", "10km", "10km+")
+    private var nationality = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +68,7 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
 
         binding.etInput.addTextChangedListener(this)
         binding.lvGoods.onItemClickListener = this
-        binding.btnDistance.setOnClickListener(this)
+        binding.btnNationality.setOnClickListener(this)
         binding.btnUni.setOnClickListener(this)
         binding.btnFriends.setOnClickListener(this)
         binding.btnSearch.setOnClickListener(this)
@@ -175,9 +175,15 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
 
                 }
             }
-            R.id.btn_distance -> {
-                selector("Please select range distance", distanceList) { _, i ->
-                    distance = distanceList[i]
+            R.id.btn_nationality -> {
+                selector("Please select range distance", Utils.countriesName) { _, i ->
+                    nationality = Utils.countriesName[i]
+                    goodsViewModel.optionNat = nationality
+                    binding.btnNationality.background.setColorFilter(Color.parseColor("gray"), PorterDuff.Mode.DARKEN)
+
+                    if (!goodsViewModel.selectedByOptions()[2]){
+                        toast("No related products")
+                    }
                 }
             }
             R.id.btn_clear -> {
@@ -197,12 +203,12 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
 
     private fun initBtn(){
         //clear selected options
-        goodsViewModel.optionDis = ""
+        goodsViewModel.optionNat = ""
         goodsViewModel.optionFri = ""
         goodsViewModel.optionUni = ""
         //clear background color
         binding.btnFriends.background.clearColorFilter()
-        binding.btnDistance.background.clearColorFilter()
+        binding.btnNationality.background.clearColorFilter()
         binding.btnUni.background.clearColorFilter()
 
         goodsViewModel.initGList()

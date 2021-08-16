@@ -9,154 +9,187 @@
             type="com.example.myuni.ui.fragment.RegisterFragment" />
     </data>
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         tools:context=".ui.fragment.RegisterFragment">
 
-        <LinearLayout
-            android:id="@+id/ly0"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp">
+            android:layout_height="match_parent"
+            android:gravity="center|top"
+            android:paddingTop="50dp">
 
-            <ImageView
-                android:id="@+id/iv_prifile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/profile_default"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ly1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:layout_below="@+id/ly0">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email:" />
-
-            <EditText
-                android:id="@+id/etEmail"
+            <LinearLayout
+                android:id="@+id/ly0"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/hideTv1"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="This email is not available!"
-                android:textColor="@color/design_default_color_error"
-                android:visibility="gone" />
+                android:gravity="center"
+                android:padding="10dp">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_prifile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/profile_default"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ly2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ly1"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Username:" />
-
-            <EditText
-                android:id="@+id/etUsername"
+            <LinearLayout
+                android:id="@+id/ly1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ly3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ly2"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password:" />
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_below="@+id/ly0">
 
-            <EditText
-                android:id="@+id/etPassword"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email:" />
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/hideTv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="This email is not available!"
+                    android:textColor="@color/design_default_color_error"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ly4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ly3"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location:" />
+                android:layout_below="@+id/ly1"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <TextView
-                android:id="@+id/tvSpinner"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username:" />
+
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly3"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:textSize="18dp"
-                android:textColor="@color/black"
-                android:gravity="center_vertical" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ly2"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <View
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Password:" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly4"
                 android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:background="#949494" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/ly5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ly4"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingTop="10dp">
-
-            <Button
-                android:id="@+id/btnSub"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Register"
-                android:textAllCaps="false"
-                android:onClick="@{() -> register.registerNewUser()}"
-                app:backgroundTint="@color/teal_200"
-                />
+                android:layout_below="@+id/ly3"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <Button
-                android:id="@+id/btnCan"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location:" />
+
+                <TextView
+                    android:id="@+id/tvSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="#949494" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly5"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:insetLeft="50dp"
-                android:text="Cancel"
-                android:textAllCaps="false"
-                android:onClick="@{() -> register.cancel()}"
-                app:backgroundTint="@color/teal_200"
-                />
+                android:layout_below="@+id/ly4"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nationality:" />
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvNationality"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="#949494" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ly5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+
+                <Button
+                    android:id="@+id/btnSub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Register"
+                    android:textAllCaps="false"
+                    android:onClick="@{() -> register.registerNewUser()}"
+                    app:backgroundTint="@color/teal_200"
+                    />
+
+                <Button
+                    android:id="@+id/btnCan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:insetLeft="50dp"
+                    android:text="Cancel"
+                    android:textAllCaps="false"
+                    android:onClick="@{() -> register.cancel()}"
+                    app:backgroundTint="@color/teal_200"
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

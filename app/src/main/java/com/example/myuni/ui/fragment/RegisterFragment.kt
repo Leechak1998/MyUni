@@ -56,10 +56,17 @@ class RegisterFragment : Fragment() {
             show()
         }
 
-        binding.tvSpinner.text = Uni.uniName[0]
+        binding.tvSpinner.text = "Please select your University"
         binding.tvSpinner.setOnClickListener {
             selector("Please select your Uni", Uni.uniName) { _, i ->
                 binding.tvSpinner.text = Uni.uniName[i]
+            }
+        }
+
+        binding.tvNationality.text = "Please select your nationality"
+        binding.tvNationality.setOnClickListener {
+            selector("Please select your nationality", Utils.countriesName) { _, i ->
+                binding.tvNationality.text = Utils.countriesName[i]
             }
         }
     }
@@ -73,9 +80,10 @@ class RegisterFragment : Fragment() {
         val userName = binding.etUsername.text.toString()
         val passWord = binding.etPassword.text.toString()
         val uni = binding.tvSpinner.text.toString()
+        val nation = binding.tvNationality.text.toString()
 
-        if (checkInfo(email, userName, passWord, uni)){
-            var newContacts = Contacts(userName, profile, email, passWord, uni)
+        if (checkInfo(email, userName, passWord, uni, nation)){
+            var newContacts = Contacts(userName, profile, email, passWord, uni, nation)
             meViewModel.registerNewUser(newContacts)
             NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_register_to_navigation_login)
         }else
@@ -88,8 +96,8 @@ class RegisterFragment : Fragment() {
         NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_register_to_navigation_login)
     }
 
-    private fun checkInfo(email: String, userName: String, passWord: String, uni: String): Boolean{
-        if (email != null && userName != null && passWord != null && uni != "Please select your Uni")
+    private fun checkInfo(email: String, userName: String, passWord: String, uni: String, nation: String): Boolean{
+        if (email != "" && userName != "" && passWord != "" && uni != "Please select your University" && nation != "Please select your nationality")
             return true
         return false
     }
