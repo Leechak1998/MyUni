@@ -79,5 +79,14 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{goods.status}"
+            android:textSize="15dp"
+            android:textColor="@color/red"
+            android:padding="10dp"/>
+
     </LinearLayout>
 </layout>

@@ -27,9 +27,7 @@ class GoodsViewModel : ViewModel() {
         dbRef = database.getReference("goodsList").child("sellingList")
 
         dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+            override fun onCancelled(error: DatabaseError) {}
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
@@ -40,9 +38,11 @@ class GoodsViewModel : ViewModel() {
                     _initList.value?.clear()
 
                     for (key in value!!.keys){
-                        val g: Goods? = value[key]
-                        _goodsList.value = _goodsList.value?.plus(g) as ArrayList<Goods>
-                        _initList.value = _initList.value?.plus(g) as ArrayList<Goods>
+                        if (value[key]!!.status != Goods.DELIVERY){
+                            val g: Goods? = value[key]
+                            _goodsList.value = _goodsList.value?.plus(g) as ArrayList<Goods>
+                            _initList.value = _initList.value?.plus(g) as ArrayList<Goods>
+                        }
                     }
                 }
             }
@@ -61,26 +61,47 @@ class GoodsViewModel : ViewModel() {
     }
 
     fun purchaseGoods(pGoods: Goods, userEmail: String){
-        //Add item to buying list
+        //change goods' status
+        pGoods.status = Goods.PENDING
+        pGoods.buyer = userEmail
+
+        //update item from selling
         dbRef = database.getReference("goodsList").child("buyingList").child(EncodeUtils.EncodeString(userEmail))
-        _buyingList.value = _buyingList.value?.plus(pGoods) as ArrayList<Goods>
+       // _buyingList.value = _buyingList.value?.plus(pGoods) as ArrayList<Goods>
         var map: HashMap<String, Any> = HashMap()
         map[pGoods.orderNum] = pGoods
         dbRef.updateChildren(map)
 
-        //Delete item from sellingList
-        dbRef = database.getReference("goodsList").child("sellingList").child(pGoods.orderNum)
-        dbRef.removeValue()
+        //update item from selling List
+        dbRef = database.getReference("goodsList").child("sellingList")
+        var map1: HashMap<String, Any> = HashMap()
+        map1[pGoods.orderNum] = pGoods
+        dbRef.updateChildren(map1)
+    }
+
+    fun confirmGoods(pGoods: Goods, userEmail: String){
+        //change goods' status
+        pGoods.status = Goods.DELIVERY
+
+        //update item from selling
+        dbRef = database.getReference("goodsList").child("buyingList").child(EncodeUtils.EncodeString(pGoods.buyer!!))
+        // _buyingList.value = _buyingList.value?.plus(pGoods) as ArrayList<Goods>
+        var map: HashMap<String, Any> = HashMap()
+        map[pGoods.orderNum] = pGoods
+        dbRef.updateChildren(map)
+
+        //update item from selling List
+        dbRef = database.getReference("goodsList").child("sellingList")
+        var map1: HashMap<String, Any> = HashMap()
+        map1[pGoods.orderNum] = pGoods
+        dbRef.updateChildren(map1)
     }
 
     fun getSellingList(currentUser: String){
+        _sellingList.value = ArrayList()
         dbRef = database.getReference("goodsList").child("sellingList")
-
         dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onCancelled(error: DatabaseError) {}
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
                     val t = object : GenericTypeIndicator<HashMap<String, Goods>>() {}
@@ -101,12 +122,10 @@ class GoodsViewModel : ViewModel() {
     }
 
     fun getBuyingList(currentUser: String){
+        _buyingList.value = ArrayList()
         dbRef = database.getReference("goodsList").child("buyingList").child(EncodeUtils.EncodeString(currentUser))
-
         dbRef.addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+            override fun onCancelled(error: DatabaseError) {}
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){

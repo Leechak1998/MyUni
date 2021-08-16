@@ -203,10 +203,9 @@ class SellFragment : Fragment() {
                 OrderUtils.getOrderNumber()
 
             val newGood : Goods = if (binding.ivPhoto2.drawable != null){
-                Goods(tittle, price, des, img1, img2, currentUser.email!!, currentUser.nation!!, orderNumber)
+                Goods(tittle, price, des, img1, img2, currentUser.email!!, currentUser.nation!!, orderNumber, Goods.SELLING, "")
             } else{
-                Goods(tittle, price, des, img1, img2, currentUser.email!!, currentUser.nation!!, orderNumber)
-
+                Goods(tittle, price, des, img1, img2, currentUser.email!!, currentUser.nation!!, orderNumber, Goods.SELLING, "")
             }
 
             goodsViewModel.addGoods(newGood, meViewModel.getLoginUser()?.email.toString())

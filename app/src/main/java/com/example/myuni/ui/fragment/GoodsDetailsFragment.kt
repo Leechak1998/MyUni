@@ -15,10 +15,13 @@ import com.example.myuni.model.Goods
 import com.example.myuni.utils.BitmapUtils
 import com.example.myuni.viewmodel.GoodsViewModel
 import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.toast
 
 class GoodsDetailsFragment : Fragment() {
     private lateinit var binding: FragmentGoodsDetailsBinding
     private lateinit var goodsViewModel: GoodsViewModel
+    private lateinit var goods: Goods
+    private var currentUser: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goods_details, container, false)
@@ -30,14 +33,15 @@ class GoodsDetailsFragment : Fragment() {
 
     private fun init(){
         var bundle = requireArguments()
-        val goods = bundle.getSerializable("goods")!! as Goods
-        val currentUser = bundle.getString("currentUser")
+        goods = bundle.getSerializable("goods")!! as Goods
+        currentUser = bundle.getString("currentUser")
 
         goodsViewModel = ViewModelProvider(requireActivity()).get(GoodsViewModel::class.java)
 
         binding.tvTittle.text = goods.name
         binding.tvDescription.text = goods.description
         binding.tvPrice.text = goods.price
+        binding.tvStatus.text = goods.status
         binding.ivPhoto1.setImageBitmap(BitmapUtils.convertStringToIcon(goods.image1))
         if (goods.image2!!.isNotEmpty()){
             binding.ivPhoto2.setImageBitmap(BitmapUtils.convertStringToIcon(goods.image2))
@@ -46,13 +50,26 @@ class GoodsDetailsFragment : Fragment() {
         //when seller himself views this item
         if (currentUser == goods.owner){
             binding.btnPurchase.visibility = View.INVISIBLE
-            binding.btnContact.text = "Edit"
-            binding.btnContact.setOnClickListener { it ->
-                val bundle = Bundle().also {
-                    it.putSerializable("goods", goods)
+            if (goods.status == Goods.PENDING){
+                binding.btnContact.text = "Confirm"
+                binding.btnContact.setOnClickListener { it ->
+                    goodsViewModel.confirmGoods(goods, currentUser!!)
+                    this.fragmentManager?.popBackStack()
+                    toast("Confirm successfully!")
                 }
-                Navigation.findNavController(it).navigate(R.id.navigation_sell, bundle)
+
+            }else{
+
+                binding.btnContact.text = "Edit"
+                binding.btnContact.setOnClickListener { it ->
+                    val bundle = Bundle().also {
+                        it.putSerializable("goods", goods)
+                    }
+                    Navigation.findNavController(it).navigate(R.id.navigation_sell, bundle)
+                }
             }
+
+
         }
         // when buyers views this item
         else{
@@ -60,6 +77,8 @@ class GoodsDetailsFragment : Fragment() {
             binding.btnPurchase.setOnClickListener {view ->
                 alert("Do you want to purchase this item?","Purchase"){
                     positiveButton("Yes"){
+
+
                         goodsViewModel.purchaseGoods(goods, currentUser!!)
                         Toast.makeText(context, "Purchase successfully", Toast.LENGTH_SHORT).show()
                         Navigation.findNavController(view).navigate(R.id.navigation_shop)
