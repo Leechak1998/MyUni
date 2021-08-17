@@ -2,6 +2,7 @@ package com.example.myuni.ui.fragment
 
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -17,7 +18,7 @@ import com.example.myuni.viewmodel.ContactsViewModel
 import com.example.myuni.viewmodel.MeViewModel
 import android.app.ActionBar as ActionBar
 
-class ContactsFragment : Fragment() {
+class ContactsFragment : Fragment(), AdapterView.OnItemClickListener {
     private lateinit var binding: FragmentContactsBinding
     private lateinit var contactsViewModel: ContactsViewModel
     private lateinit var meViewModel: MeViewModel
@@ -41,36 +42,38 @@ class ContactsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contacts, container, false)
+        initViewModel()
+        init()
+        return binding.root
+    }
 
+    private fun initViewModel() {
         contactsViewModel = ViewModelProvider(requireActivity()).get(ContactsViewModel::class.java)
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+    }
 
+    private fun init() {
         contactsViewModel.initContactsList(meViewModel.getLoginUser()!!.email!!)
         contactsViewModel.contactsList.observe(viewLifecycleOwner, Observer { it ->
             contactsList.clear()
             contactsList.addAll(it)
             adapter.notifyDataSetChanged()
             binding.lvContacts.setSelection(it.size)
-//            println("更新用户列表")
-//            for (i in contactsList.indices){
-//                println("------$i----${contactsList[i].name}")
-//            }
         })
 
         adapter = ContactsAdapter(requireContext(), R.layout.contacts_item, contactsList);
-        binding.adapter = adapter;
+        binding.adapter = adapter
 
-        binding.lvContacts.setOnItemClickListener { _,_ ,position,_ ->
-            val contacts = contactsList[position]
-//            contactsViewModel.getUser(contacts.email!!)
-            val bundle = Bundle().also {
-                it.putSerializable("receiver", contacts)
-            }
-            NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_contacts_to_navigation_chat, bundle)
-        }
-
-        return binding.root
+        //set listener
+        binding.lvContacts.onItemClickListener = this
     }
 
+    override fun onItemClick(p0: AdapterView<*>?, v: View?, position: Int, p3: Long) {
+        val contacts = contactsList[position]
+        val bundle = Bundle().also {
+            it.putSerializable("receiver", contacts)
+        }
+        NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_contacts_to_navigation_chat, bundle)
+    }
 
 }

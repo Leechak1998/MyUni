@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -22,6 +23,7 @@ import com.example.myuni.model.Comment
 import com.example.myuni.model.Contacts
 import com.example.myuni.model.Posting
 import com.example.myuni.utils.BitmapUtils
+import com.example.myuni.utils.CommonDialog
 import com.example.myuni.utils.TimeUtils
 import com.example.myuni.viewmodel.MeViewModel
 import com.example.myuni.viewmodel.PostingViewModel
@@ -88,6 +90,23 @@ class PostingDetailsFragment : Fragment(), View.OnClickListener {
         })
 
         binding.btnAddComment.setOnClickListener(this)
+        binding.ivProfile.setOnClickListener(this)
+        commentAdapter.setOnItemClickListener(object :CommentAdapter.ItemClickListener{
+            override fun onItemClickListener(v: View, comment: Comment) {
+                v.findViewById<ImageView>(R.id.iv_profile_reviewer).setOnClickListener {
+
+                    val commonDialog = CommonDialog()
+                    commonDialog.name = comment.reviewer!!
+                    commonDialog.email = comment.reviewerEmail!!
+                    commonDialog.nation = comment.reviewerNation!!
+                    commonDialog.uni = comment.reviewerUni!!
+                    commonDialog.profile = comment.reviewerPic!!
+                    commonDialog.show(requireFragmentManager(), "personal info")
+                }
+
+            }
+
+        })
     }
 
     private fun initViewModel() {
@@ -117,7 +136,7 @@ class PostingDetailsFragment : Fragment(), View.OnClickListener {
                     if (review.text.toString() != ""){
                         val time = TimeUtils.getCurrentTime(LocalDateTime.now())
 
-                        val newComment = Comment(currentUser.name, currentUser.imageId, review.text.toString(), time)
+                        val newComment = Comment(currentUser.name, currentUser.email, currentUser.imageId, currentUser.nation, currentUser.uni, review.text.toString(), time)
                         postingViewModel.publishComment(posting, newComment)
                         toast("Publish successfully!")
                         buttonDialog.dismiss()
@@ -126,6 +145,16 @@ class PostingDetailsFragment : Fragment(), View.OnClickListener {
                     }
 
                 }
+            }
+            R.id.iv_profile -> {
+                val commonDialog = CommonDialog()
+                commonDialog.name = posting.publisherName!!
+                commonDialog.email = posting.publisherEmail!!
+                commonDialog.nation = posting.publisherNation!!
+                commonDialog.uni = posting.publisherUni!!
+                commonDialog.profile = posting.publisherPic!!
+                commonDialog.show(requireFragmentManager(), "personal info")
+
             }
         }
     }

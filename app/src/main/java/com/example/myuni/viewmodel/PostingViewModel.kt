@@ -1,10 +1,14 @@
 package com.example.myuni.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myuni.model.Comment
+import com.example.myuni.model.Contacts
 import com.example.myuni.model.Goods
 import com.example.myuni.model.Posting
+import com.example.myuni.utils.CommonDialog
+import com.example.myuni.utils.EncodeUtils
 import com.google.firebase.database.*
 
 class PostingViewModel: ViewModel(){
@@ -169,4 +173,19 @@ class PostingViewModel: ViewModel(){
 
         })
     }
+
+    fun getUserData(email: String){
+        database.getReference("userList").child(EncodeUtils.EncodeString(email)).get().addOnSuccessListener {
+            val t = object : GenericTypeIndicator<Contacts>() {}
+            var value = it.getValue(t)
+
+            println("get user data from database")
+            println("name:${value!!.name}   email:${value!!.email}")
+
+        }.addOnFailureListener {
+            Log.e("firebase", "Error getting data", it)
+        }
+
+    }
+
 }

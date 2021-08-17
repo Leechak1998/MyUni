@@ -25,19 +25,19 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private lateinit var meViewModel: MeViewModel
     private lateinit var currentUser: String
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-
+        initViewModel()
         init()
-
         return binding.root
     }
 
-    private fun init(){
+    private fun initViewModel(){
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+    }
+
+    private fun init(){
         currentUser = meViewModel.getLoginUser()?.email!!
         binding.ibtnPost.setOnClickListener(this)
         binding.ibtnShop.setOnClickListener(this)

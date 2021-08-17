@@ -26,7 +26,6 @@ class CommunityFragment : Fragment(), CommunityAdapter.RecyclerViewItemClickList
     private lateinit var meViewModel: MeViewModel
     private lateinit var contactViewModel: ContactsViewModel
     private var communityList = ArrayList<Community>()
-    private val userList = ArrayList<Contacts>()
     private lateinit var communityAdapter: CommunityAdapter
     private lateinit var currentUser: Contacts
 

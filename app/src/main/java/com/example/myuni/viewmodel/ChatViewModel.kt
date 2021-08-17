@@ -1,6 +1,7 @@
 package com.example.myuni.viewmodel
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -103,4 +104,6 @@ class ChatViewModel : ViewModel(){
             }
         })
     }
+
+
 }

@@ -14,11 +14,8 @@ import com.example.myuni.utils.BitmapUtils
 class OrderDetailsFragment : Fragment() {
     private lateinit var binding: FragmentSellBinding
 
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sell, container, false)
-
         init()
         return binding.root
     }

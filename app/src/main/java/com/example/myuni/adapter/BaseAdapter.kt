@@ -22,7 +22,4 @@ abstract class BaseAdapter<T>(var data: List<T>) : RecyclerView.Adapter<BaseView
     }
 }
 
-open class BaseViewHolder(var dataBinding: ViewDataBinding) : RecyclerView.ViewHolder(dataBinding.root) {
-
-
-}
+open class BaseViewHolder(var dataBinding: ViewDataBinding) : RecyclerView.ViewHolder(dataBinding.root) {}

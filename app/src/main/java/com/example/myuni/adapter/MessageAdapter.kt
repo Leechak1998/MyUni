@@ -12,6 +12,7 @@ import com.example.myuni.R
 import com.example.myuni.model.Contacts
 import com.example.myuni.model.Message
 import com.example.myuni.utils.BitmapUtils
+import com.example.myuni.viewmodel.CommunityViewModel
 
 class MessageAdapter(context: Context, resource: Int, data: List<Message>) : ArrayAdapter<Message>(context, resource, data) {
     private val resourceId: Int = resource
@@ -58,6 +59,7 @@ class MessageAdapter(context: Context, resource: Int, data: List<Message>) : Arr
             viewHolder.leftProfile.visibility = View.GONE
             viewHolder.rightMessage.text = message.content
         }
+
         return view
     }
 

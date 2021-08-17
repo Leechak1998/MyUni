@@ -26,18 +26,22 @@ class MeFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_me, container, false)
-
+        initViewModel()
         init()
 
-        binding.im.setImageBitmap(BitmapUtils.convertStringToIcon(currentUser.imageId))
-        binding.tv.text = currentUser.name
+
 
         return binding.root
     }
 
-    private fun init(){
+    private fun initViewModel(){
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+    }
+
+    private fun init(){
         currentUser = meViewModel.getLoginUser()!!
+        binding.im.setImageBitmap(BitmapUtils.convertStringToIcon(currentUser.imageId))
+        binding.tv.text = currentUser.name
 
         binding.btnProfile.setOnClickListener(this)
         binding.btnPosting.setOnClickListener(this)

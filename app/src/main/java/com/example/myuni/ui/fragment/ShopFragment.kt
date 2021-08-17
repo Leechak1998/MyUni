@@ -63,24 +63,22 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shop, container, false)
-
+        initViewModel()
         init()
-
-        binding.etInput.addTextChangedListener(this)
-        binding.lvGoods.onItemClickListener = this
-        binding.btnNationality.setOnClickListener(this)
-        binding.btnUni.setOnClickListener(this)
-        binding.btnFriends.setOnClickListener(this)
-        binding.btnSearch.setOnClickListener(this)
-        binding.btnClear.setOnClickListener(this)
-
         return binding.root
     }
 
-    private fun init(){
+    private fun initViewModel() {
         goodsViewModel = ViewModelProvider(requireActivity()).get(GoodsViewModel::class.java)
-        goodsViewModel.initGoodsList()
+        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+        utilViewModel = ViewModelProvider(requireActivity()).get(UtilViewModel::class.java)
+    }
 
+    private fun init(){
+        utilViewModel.setNavBarStatus(false)
+        currentUser = meViewModel.getLoginUser()!!.email.toString()
+
+        goodsViewModel.initGoodsList()
         goodsViewModel.goodsList.observe(viewLifecycleOwner, Observer {
             goodsList.clear()
             goodsList.addAll(it)
@@ -90,24 +88,21 @@ class ShopFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
         goodsAdapter = GoodsAdapter(requireContext(), R.layout.goods_item, goodsList)
         binding.goodsAdapter = goodsAdapter
 
-
-        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
-        currentUser = meViewModel.getLoginUser()!!.email.toString()
-
-        utilViewModel = ViewModelProvider(requireActivity()).get(UtilViewModel::class.java)
-        utilViewModel.setNavBarStatus(false)
-
         contactsViewModel = ViewModelProvider(this).get(ContactsViewModel::class.java)
         contactsViewModel.initContactsList(currentUser)
         contactsViewModel.contactsList.observe(viewLifecycleOwner, Observer {
             friendsArrayList.clear()
             friendsArrayList.addAll(it)
-//            println("更新friends列表")
-//            for (i in friendsArrayList.indices){
-//                println("------$i----${friendsArrayList[i].name}")
-//            }
         })
 
+        //set listener
+        binding.etInput.addTextChangedListener(this)
+        binding.lvGoods.onItemClickListener = this
+        binding.btnNationality.setOnClickListener(this)
+        binding.btnUni.setOnClickListener(this)
+        binding.btnFriends.setOnClickListener(this)
+        binding.btnSearch.setOnClickListener(this)
+        binding.btnClear.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {

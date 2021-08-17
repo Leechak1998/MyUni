@@ -5,12 +5,15 @@ import androidx.databinding.BindingAdapter
 import com.example.myuni.utils.BitmapUtils
 import java.io.Serializable
 
-class Posting constructor(postingNum: String?, category: String?, publisherName: String?, publisherPic: String?, tittle: String?, description: String?, image1: String?, image2: String?, image3: String?, time: String): Serializable {
+class Posting constructor(postingNum: String?, category: String?, publisherEmail: String?, publisherName: String?, publisherPic: String?, publisherNation: String?, publisherUni: String?, tittle: String?, description: String?, image1: String?, image2: String?, image3: String?, time: String): Serializable {
 
     val postingNum = postingNum
     val category = category
+    val publisherEmail = publisherEmail
     val publisherName = publisherName
     val publisherPic = publisherPic
+    val publisherNation = publisherNation
+    val publisherUni = publisherUni
     val tittle = tittle
     val description = description
     val image1 = image1
@@ -26,5 +29,5 @@ class Posting constructor(postingNum: String?, category: String?, publisherName:
         }
     }
 
-    constructor():this("","","", "", "", "", null, null, null, "")
+    constructor():this("","","", "", "", "", "", "", "", null, null, null, "")
 }

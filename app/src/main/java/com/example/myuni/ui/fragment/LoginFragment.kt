@@ -24,9 +24,21 @@ class LoginFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-
+        initViewModel()
         init()
+        return binding.root
+    }
 
+    private fun initViewModel(){
+        utilViewModel = ViewModelProvider(requireActivity()).get(UtilViewModel::class.java)
+        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+    }
+
+    private fun init(){
+        utilViewModel.setNavBarStatus(true)
+        binding.avi.hide()
+
+        binding.login = this
         meViewModel.isLogin.observe(viewLifecycleOwner, Observer {
             println("登陆状态改变->$it")
             if (it == 1){
@@ -42,17 +54,6 @@ class LoginFragment : Fragment() {
             }
         })
 
-        return binding.root
-    }
-
-    private fun init(){
-        binding.login = this
-        binding.avi.hide()
-
-        utilViewModel = ViewModelProvider(requireActivity()).get(UtilViewModel::class.java)
-        utilViewModel.setNavBarStatus(true)
-
-        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
     }
 
     fun login(){

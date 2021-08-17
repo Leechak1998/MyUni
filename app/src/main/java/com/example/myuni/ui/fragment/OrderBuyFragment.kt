@@ -20,33 +20,36 @@ class OrderBuyFragment : Fragment() {
     private lateinit var goodsViewModel: GoodsViewModel
     private lateinit var meViewModel: MeViewModel
     private lateinit var adapter: GoodsAdapter
-    private var buyingingList = ArrayList<Goods>()
+    private var buyingList = ArrayList<Goods>()
     private lateinit var currentUser: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_order_sell, container, false)
-
+        initViewModel()
         init()
 
         return binding.root
     }
 
-    private fun init(){
+    private fun initViewModel(){
         goodsViewModel = ViewModelProvider(requireActivity()).get(GoodsViewModel::class.java)
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+    }
+
+    private fun init(){
         currentUser = meViewModel.getLoginUser()!!.email.toString()
 
         goodsViewModel.buyingList.observe(viewLifecycleOwner, Observer {
-            buyingingList.clear()
-            buyingingList.addAll(it)
+            buyingList.clear()
+            buyingList.addAll(it)
             adapter.notifyDataSetChanged()
             binding.lvSellList.setSelection(it.size)
             println("更新出售物品列表")
-            for (i in buyingingList.indices){
-                println("------$i----${buyingingList[i].name}")
+            for (i in buyingList.indices){
+                println("------$i----${buyingList[i].name}")
             }
         })
-        adapter = GoodsAdapter(requireContext(), R.layout.goods_item, buyingingList)
+        adapter = GoodsAdapter(requireContext(), R.layout.goods_item, buyingList)
         binding.adapter = adapter
 
         goodsViewModel.getBuyingList(meViewModel.getLoginUser()!!.email!!)

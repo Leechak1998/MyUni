@@ -34,7 +34,7 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var meViewModel: MeViewModel
 
@@ -43,39 +43,32 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
-
+        initViewModel()
         init()
         return binding.root
     }
 
+    private fun initViewModel() {
+        meViewModel = ViewModelProvider(this).get(MeViewModel::class.java)
+    }
+
     private fun init(){
         binding.register = this
-        meViewModel = ViewModelProvider(this).get(MeViewModel::class.java)
 
-        binding.ivPrifile.setOnClickListener {
-            show()
-        }
+        //set listener
+        binding.ivProfile.setOnClickListener(this)
 
         binding.tvSpinner.text = "Please select your University"
-        binding.tvSpinner.setOnClickListener {
-            selector("Please select your Uni", Uni.uniName) { _, i ->
-                binding.tvSpinner.text = Uni.uniName[i]
-            }
-        }
+        binding.tvSpinner.setOnClickListener(this)
 
         binding.tvNationality.text = "Please select your nationality"
-        binding.tvNationality.setOnClickListener {
-            selector("Please select your nationality", Utils.countriesName) { _, i ->
-                binding.tvNationality.text = Utils.countriesName[i]
-            }
-        }
-    }
+        binding.tvNationality.setOnClickListener(this)    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun registerNewUser(){
         //默认头像
-        val profile = BitmapUtils.convertIconToString(binding.ivPrifile.drawable.toBitmap())
+        val profile = BitmapUtils.convertIconToString(binding.ivProfile.drawable.toBitmap())
         val email = binding.etEmail.text.toString()
         val userName = binding.etUsername.text.toString()
         val passWord = binding.etPassword.text.toString()
@@ -156,12 +149,30 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        binding.ivPrifile.setImageBitmap(imageBitmap)
+        binding.ivProfile.setImageBitmap(imageBitmap)
     }
 
     companion object{
         const val REQUEST_IMAGE_CAPTURE = 1
         const val PHOTO_REQUEST_GALLERY = 2
+    }
+
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.iv_profile -> {
+                show()
+            }
+            R.id.tvSpinner -> {
+                selector("Please select your Uni", Uni.uniName) { _, i ->
+                    binding.tvSpinner.text = Uni.uniName[i]
+                }
+            }
+            R.id.tvNationality -> {
+                selector("Please select your nationality", Utils.countriesName) { _, i ->
+                    binding.tvNationality.text = Utils.countriesName[i]
+                }
+            }
+        }
     }
 
 }

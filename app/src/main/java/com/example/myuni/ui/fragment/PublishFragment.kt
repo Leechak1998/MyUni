@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.example.myuni.R
 import com.example.myuni.databinding.FragmentPublishBinding
+import com.example.myuni.model.Contacts
 import com.example.myuni.model.Posting
 import com.example.myuni.utils.BitmapUtils
 import com.example.myuni.utils.OrderUtils
@@ -35,7 +36,7 @@ import java.time.LocalDateTime
 
 class PublishFragment : Fragment(), RadioGroup.OnCheckedChangeListener, View.OnClickListener {
     private lateinit var binding: FragmentPublishBinding
-    private lateinit var currentUser: String
+    private lateinit var currentUser: Contacts
     private lateinit var currentUserPic: String
     private var tittle: String? = null
     private var description : String? = null
@@ -79,7 +80,7 @@ class PublishFragment : Fragment(), RadioGroup.OnCheckedChangeListener, View.OnC
 
     private fun init(){
         utilViewModel.setNavBarStatus(true)
-        currentUser = meViewModel.getLoginUser()!!.email.toString()
+        currentUser = meViewModel.getLoginUser()!!
         currentUserPic = meViewModel.getLoginUser()!!.imageId.toString()
 
         radioGroup = binding.radioGroup
@@ -100,7 +101,7 @@ class PublishFragment : Fragment(), RadioGroup.OnCheckedChangeListener, View.OnC
         val orderNumber = OrderUtils.getOrderNumber()
         val currentTime = TimeUtils.getCurrentTime(LocalDateTime.now())
         println("--tittle:$tittle-- --des:$description--")
-        val newPosting = Posting(orderNumber, category, currentUser, currentUserPic, tittle, description, image1, image2, image3, currentTime)
+        val newPosting = Posting(orderNumber, category, currentUser.email, currentUser.name, currentUserPic, currentUser.nation, currentUser.uni, tittle, description, image1, image2, image3, currentTime)
         postingViewModel.publishPosting(newPosting)
     }
 

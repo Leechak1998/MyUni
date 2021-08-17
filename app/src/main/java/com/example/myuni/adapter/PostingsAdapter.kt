@@ -10,7 +10,7 @@ class PostingsAdapter(data: List<Posting>) : com.example.myuni.adapter.BaseAdapt
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         var binding : ViewDataBinding = holder.dataBinding
-        binding.setVariable(BR.posting,data.get(position))
+        binding.setVariable(BR.posting, data[position])
     }
 
     override fun getItemViewType(position: Int): Int {

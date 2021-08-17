@@ -21,9 +21,9 @@
 
             <ImageView
                 android:id="@+id/head_left"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center|left"
                 android:src="@drawable/profile_default"
                 app:setImageBitmap="@{message.profile}"/>
 
@@ -32,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:layout_marginLeft="5dp"
                 android:background="@drawable/leftbox">
 
                 <TextView
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_gravity="right"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/rightbox">
 
                 <TextView
@@ -67,8 +69,9 @@
 
             <ImageView
                 android:id="@+id/head_right"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:src="@drawable/profile_default"
                 app:setImageBitmap="@{message.profile}"/>
 

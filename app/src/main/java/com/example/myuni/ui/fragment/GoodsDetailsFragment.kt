@@ -25,18 +25,19 @@ class GoodsDetailsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goods_details, container, false)
-
+        initViewModel()
         init()
-
         return binding.root
+    }
+
+    private fun initViewModel(){
+        goodsViewModel = ViewModelProvider(requireActivity()).get(GoodsViewModel::class.java)
     }
 
     private fun init(){
         var bundle = requireArguments()
         goods = bundle.getSerializable("goods")!! as Goods
         currentUser = bundle.getString("currentUser")
-
-        goodsViewModel = ViewModelProvider(requireActivity()).get(GoodsViewModel::class.java)
 
         binding.tvTittle.text = goods.name
         binding.tvDescription.text = goods.description
@@ -57,9 +58,7 @@ class GoodsDetailsFragment : Fragment() {
                     this.fragmentManager?.popBackStack()
                     toast("Confirm successfully!")
                 }
-
             }else{
-
                 binding.btnContact.text = "Edit"
                 binding.btnContact.setOnClickListener { it ->
                     val bundle = Bundle().also {
@@ -68,8 +67,6 @@ class GoodsDetailsFragment : Fragment() {
                     Navigation.findNavController(it).navigate(R.id.navigation_sell, bundle)
                 }
             }
-
-
         }
         // when buyers views this item
         else{
@@ -77,8 +74,6 @@ class GoodsDetailsFragment : Fragment() {
             binding.btnPurchase.setOnClickListener {view ->
                 alert("Do you want to purchase this item?","Purchase"){
                     positiveButton("Yes"){
-
-
                         goodsViewModel.purchaseGoods(goods, currentUser!!)
                         Toast.makeText(context, "Purchase successfully", Toast.LENGTH_SHORT).show()
                         Navigation.findNavController(view).navigate(R.id.navigation_shop)

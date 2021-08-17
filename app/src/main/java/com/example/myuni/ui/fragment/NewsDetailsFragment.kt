@@ -20,26 +20,13 @@ class NewsDetailsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news_details, container, false)
-//        initViewModel()
-//        init()
+
         var bundle = requireArguments()
         val position = bundle.getInt("position")
-
 
         binding.wv.settings.javaScriptEnabled = true
         binding.wv.loadUrl(Uni.uniNewsUrls[position])
 
         return binding.root
     }
-//
-//    private fun initViewModel() {
-//
-//    }
-//
-//    private fun init() {
-//        var bundle = requireArguments()
-//        val position = bundle.getInt("position")
-//    }
-
-
 }

@@ -40,7 +40,6 @@ class Utils{
             val imm = content.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
         }
-
     }
 
 

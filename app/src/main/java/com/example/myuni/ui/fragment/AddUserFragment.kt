@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,7 +22,7 @@ import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.yesButton
 
-class AddUserFragment : Fragment() {
+class AddUserFragment : Fragment(), AdapterView.OnItemClickListener {
     private lateinit var binding: FragmentAddUserBinding
     private lateinit var contactsViewModel: ContactsViewModel
     private lateinit var meViewModel: MeViewModel
@@ -36,11 +35,19 @@ class AddUserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_user, container, false)
+        initViewModel()
+        init()
+        return binding.root
+    }
+
+    private fun initViewModel() {
+        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+        contactsViewModel = ViewModelProvider(requireActivity()).get(ContactsViewModel::class.java)
+    }
+
+    private fun init() {
         binding.search = this
 
-        meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
-
-        contactsViewModel = ViewModelProvider(requireActivity()).get(ContactsViewModel::class.java)
         contactsViewModel.newUser.observe(viewLifecycleOwner, Observer {
             newUserList.clear()
             newUserList.addAll(it)
@@ -49,27 +56,11 @@ class AddUserFragment : Fragment() {
             if (newUserList.size > 0)
                 newUser = newUserList[0]
         })
-
         adapter = ContactsAdapter(requireContext(), R.layout.contacts_item, newUserList);
-        binding.adapter = adapter;
+        binding.adapter = adapter
 
-        binding.lvNewUser.setOnItemClickListener {_,_ ,_,_ ->
-            alert("Do you want to add this contacts?","Add Contacts") {
-                positiveButton("Yes") {
-                    if (checkUserList(newUser)){
-                        alert("He/She is your friend already!", "Tips") {
-                            positiveButton("Yes"){ }
-                        }.show()
-                    }else{
-                        contactsViewModel.addContacts(meViewModel.getLoginUser()?.email!!)
-                        NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.action_navigation_addUser_to_navigation_contacts)
-                    }
-                }
-                negativeButton("No") { }
-            }.show()
-        }
-
-        return binding.root
+        //set listener
+        binding.lvNewUser.setOnItemClickListener(this)
     }
 
     fun searchUser(){
@@ -86,6 +77,22 @@ class AddUserFragment : Fragment() {
             }
         }
         return false
+    }
+
+    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        alert("Do you want to add this contacts?","Add Contacts") {
+            positiveButton("Yes") {
+                if (checkUserList(newUser)){
+                    alert("He/She is your friend already!", "Tips") {
+                        positiveButton("Yes"){ }
+                    }.show()
+                }else{
+                    contactsViewModel.addContacts(meViewModel.getLoginUser()?.email!!)
+                    NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.action_navigation_addUser_to_navigation_contacts)
+                }
+            }
+            negativeButton("No") { }
+        }.show()
     }
 
 }

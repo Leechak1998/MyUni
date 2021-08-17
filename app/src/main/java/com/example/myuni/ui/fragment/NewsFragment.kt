@@ -32,9 +32,6 @@ class NewsFragment : Fragment(), AdapterView.OnItemClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false)
-//        initViewModel()
-//        init()
-
         binding.lvNewsList.adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, Uni.uniNews)
         binding.lvNewsList.setOnItemClickListener(this)
         return binding.root
@@ -45,15 +42,5 @@ class NewsFragment : Fragment(), AdapterView.OnItemClickListener {
         bundle.putInt("position", position)
         Navigation.findNavController(v!!).navigate(R.id.navigation_newsDetails,bundle)
     }
-
-//    private fun initViewModel() {
-//
-//    }
-//
-//    private fun init() {
-//        binding.lvNewsList.adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, Uni.uniNews)
-//        binding.lvNewsList.setOnClickListener(this)
-//
-//    }
 
 }

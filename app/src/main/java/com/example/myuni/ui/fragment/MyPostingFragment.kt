@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myuni.R
-import com.example.myuni.adapter.CommentAdapter
 import com.example.myuni.adapter.PostingsAdapter
 import com.example.myuni.databinding.FragmentMyPostingBinding
 import com.example.myuni.model.Posting

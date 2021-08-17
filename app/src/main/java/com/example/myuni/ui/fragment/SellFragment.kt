@@ -37,7 +37,7 @@ import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SellFragment : Fragment() {
+class SellFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentSellBinding
     private lateinit var utilViewModel: UtilViewModel
     private lateinit var meViewModel: MeViewModel
@@ -67,16 +67,19 @@ class SellFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sell, container, false)
-
+        initViewModel()
         init()
         return binding.root
     }
 
-    private fun init(){
+    private fun initViewModel() {
         utilViewModel = ViewModelProvider(requireActivity()).get(UtilViewModel::class.java)
-        utilViewModel.setNavBarStatus(true)
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
         goodsViewModel = ViewModelProvider(requireActivity()).get(GoodsViewModel::class.java)
+    }
+
+    private fun init(){
+        utilViewModel.setNavBarStatus(true)
 
         if (arguments != null){
             val bundle = requireArguments()
@@ -98,23 +101,28 @@ class SellFragment : Fragment() {
             binding.ivPhoto2.visibility = View.INVISIBLE
         }
 
+        //set listener
+        binding.ivPhoto1.setOnClickListener(this)
+        binding.ivPhoto2.setOnClickListener(this)
+        binding.imgBtnTakePic1.setOnClickListener(this)
+        binding.imgBtnTakePic2.setOnClickListener(this)
 
-        binding.ivPhoto1.setOnClickListener {
-            position = 0
-            show()
-        }
-        binding.ivPhoto2.setOnClickListener {
-            position = 1
-            show()
-        }
-        binding.imgBtnTakePic1.setOnClickListener {
-            position = 0
-            show()
-        }
-        binding.imgBtnTakePic2.setOnClickListener {
-            position = 1
-            show()
-        }
+//        binding.ivPhoto1.setOnClickListener {
+//            position = 0
+//            show()
+//        }
+//        binding.ivPhoto2.setOnClickListener {
+//            position = 1
+//            show()
+//        }
+//        binding.imgBtnTakePic1.setOnClickListener {
+//            position = 0
+//            show()
+//        }
+//        binding.imgBtnTakePic2.setOnClickListener {
+//            position = 1
+//            show()
+//        }
 
     }
 
@@ -141,31 +149,6 @@ class SellFragment : Fragment() {
                 }
             }
             buttonDialog.dismiss()
-
-//            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-//                // Ensure that there's a camera activity to handle the intent
-//                takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
-//                    // Create the File where the photo should go
-//                    val photoFile: File? = try {
-//                        createImageFile()
-//                    } catch (ex: IOException) {
-//                        // Error occurred while creating the File
-//                        null
-//                    }
-//                    // Continue only if the File was successfully created
-//                    photoFile?.also {
-//                        val photoURI: Uri = FileProvider.getUriForFile(
-//                            requireContext(),
-//                            "com.mydomain.fileprovider",
-//                            it
-//                        )
-//                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-//                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-//                    }
-//                }
-//            }
-
-
         }
 
         album.setOnClickListener {
@@ -240,44 +223,16 @@ class SellFragment : Fragment() {
 
     }
 
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: Array<out File> = getExternalFilesDirs(requireContext(),Environment.DIRECTORY_PICTURES)
-        println("------- ${storageDir[0]}")
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir[0] /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            currentPhotoPath = absolutePath
-        }
-    }
-
-    private fun setPic(imageView: ImageView) {
-        // Get the dimensions of the View
-        val targetW: Int = imageView.width
-        val targetH: Int = imageView.height
-
-        val bmOptions = BitmapFactory.Options().apply {
-            // Get the dimensions of the bitmap
-            inJustDecodeBounds = true
-
-            val photoW: Int = outWidth
-            val photoH: Int = outHeight
-
-            // Determine how much to scale down the image
-            val scaleFactor: Int = Math.min(photoW / targetW, photoH / targetH)
-
-            // Decode the image file into a Bitmap sized to fill the View
-            inJustDecodeBounds = false
-            inSampleSize = scaleFactor
-            inPurgeable = true
-        }
-        BitmapFactory.decodeFile(currentPhotoPath, bmOptions)?.also { bitmap ->
-            imageView.setImageBitmap(bitmap)
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.iv_photo1, R.id.img_btn_takePic1 -> {
+                position = 0
+                show()
+            }
+            R.id.iv_photo2, R.id.img_btn_takePic2 -> {
+                position = 1
+                show()
+            }
         }
     }
 }

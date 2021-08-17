@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +18,7 @@ import com.example.myuni.model.Goods
 import com.example.myuni.viewmodel.GoodsViewModel
 import com.example.myuni.viewmodel.MeViewModel
 
-class OrderSellFragment : Fragment() {
+class OrderSellFragment : Fragment(), AdapterView.OnItemClickListener {
     private lateinit var binding: FragmentOrderSellBinding
     private lateinit var goodsViewModel: GoodsViewModel
     private lateinit var meViewModel: MeViewModel
@@ -27,22 +28,19 @@ class OrderSellFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_order_sell, container, false)
-
+        initViewModel()
         init()
 
-        binding.lvSellList.setOnItemClickListener { _, view, position, _ ->
-            val bundle = Bundle()
-            bundle.putSerializable("goods", sellingList[position])
-            bundle.putString("currentUser", currentUser)
-            Navigation.findNavController(view).navigate(R.id.navigation_goodsDetails, bundle)
-        }
 
         return binding.root
     }
 
-    private fun init(){
+    private fun initViewModel(){
         goodsViewModel = ViewModelProvider(requireActivity()).get(GoodsViewModel::class.java)
         meViewModel = ViewModelProvider(requireActivity()).get(MeViewModel::class.java)
+    }
+
+    private fun init(){
         currentUser = meViewModel.getLoginUser()!!.email.toString()
 
         goodsViewModel.sellingList.observe(viewLifecycleOwner, Observer {
@@ -60,7 +58,15 @@ class OrderSellFragment : Fragment() {
 
         goodsViewModel.getSellingList(meViewModel.getLoginUser()!!.email!!)
 
+        //set listener
+        binding.lvSellList.onItemClickListener = this
+    }
 
+    override fun onItemClick(p0: AdapterView<*>?, v: View?, position: Int, p3: Long) {
+        val bundle = Bundle()
+        bundle.putSerializable("goods", sellingList[position])
+        bundle.putString("currentUser", currentUser)
+        Navigation.findNavController(v!!).navigate(R.id.navigation_goodsDetails, bundle)
     }
 
 
