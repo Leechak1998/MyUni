@@ -6,10 +6,10 @@ import com.example.myuni.utils.BitmapUtils
 import java.io.Serializable
 
 
-class Goods constructor(name: String?, price: String?, description: String?, image1: String?, image2: String?, owner: String, nation: String, orderNum: String, status: String, buyer: String?): Serializable{
+class Goods constructor(name: String?, price: String?, description: String?, image1: String?, image2: String?, owner: String, nation: String, orderNum: String, status: String, buyerName: String?, buyerEmail: String?, method: String?, address: String?, finalPrice: String?, tradingTime: String?): Serializable{
 
     val name = name
-    val price = price
+    var price = price
     val description = description
     val image1 = image1
     val image2 = image2
@@ -17,7 +17,13 @@ class Goods constructor(name: String?, price: String?, description: String?, ima
     val nation = nation
     val orderNum = orderNum
     var status = status
-    var buyer = buyer
+    var buyerName = buyerName
+    var buyerEmail = buyerEmail
+    var method = method
+    var address = address
+    var finalPrice = finalPrice
+    var tradingTime = tradingTime
+
 
     companion object {
         @BindingAdapter("app:setImageBitmap")
@@ -32,5 +38,5 @@ class Goods constructor(name: String?, price: String?, description: String?, ima
 
     }
 
-    constructor():this("", "", "", null, null, "", "", "", "", "")
+    constructor():this("", "", "", null, null, "", "", "", "", "", "", "", "", "", "")
 }

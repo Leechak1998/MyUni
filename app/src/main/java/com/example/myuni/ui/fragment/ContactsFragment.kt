@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.myuni.R
 import com.example.myuni.adapter.ContactsAdapter
 import com.example.myuni.databinding.FragmentContactsBinding
@@ -70,10 +71,12 @@ class ContactsFragment : Fragment(), AdapterView.OnItemClickListener {
 
     override fun onItemClick(p0: AdapterView<*>?, v: View?, position: Int, p3: Long) {
         val contacts = contactsList[position]
-        val bundle = Bundle().also {
-            it.putSerializable("receiver", contacts)
+        Bundle().apply {
+            putString("tittle",contacts.name)
+            putSerializable("receiver", contacts)
+            findNavController().navigate(R.id.navigation_chat,this)
         }
-        NavHostFragment.findNavController(this.requireParentFragment()).navigate(R.id.action_navigation_contacts_to_navigation_chat, bundle)
+
     }
 
 }

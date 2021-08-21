@@ -76,7 +76,7 @@ class ChatViewModel : ViewModel(){
         dbRef = database.getReference("conversationList").child(EncodeUtils.EncodeString(this.sender.email!!)).child(EncodeUtils.EncodeString(this.receiver.email!!))
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (isListening){
+                //if (isListening){
                     if (dataSnapshot.exists()){
                         println("Chat Data change!")
                         val t  = object : GenericTypeIndicator<HashMap<String, Message>>() {}
@@ -96,7 +96,7 @@ class ChatViewModel : ViewModel(){
                     }else{
                         println("none data...")
                     }
-                }
+                //}
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

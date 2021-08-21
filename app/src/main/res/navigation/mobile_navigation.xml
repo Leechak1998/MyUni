@@ -70,9 +70,9 @@
     <fragment
         android:id="@+id/navigation_chat"
         android:name="com.example.myuni.ui.fragment.ChatFragment"
-        android:label="@string/title_chat"
+        android:label="{tittle}"
         tools:layout="@layout/fragment_chat" />
-
+<!--    android:label="@string/title_chat"-->
     <fragment
         android:id="@+id/navigation_shop"
         android:name="com.example.myuni.ui.fragment.ShopFragment"
@@ -98,6 +98,12 @@
         android:name="com.example.myuni.ui.fragment.GoodsDetailsFragment"
         android:label="Details"
         tools:layout="@layout/fragment_goods_details" />
+
+    <fragment
+        android:id="@+id/navigation_goodForm"
+        android:name="com.example.myuni.ui.fragment.GoodsFormFragment"
+        android:label="Form"
+        tools:layout="@layout/fragment_goods_form" />
 
     <fragment
         android:id="@+id/navigation_myOrder"

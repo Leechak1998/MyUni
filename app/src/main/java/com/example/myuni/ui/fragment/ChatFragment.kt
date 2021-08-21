@@ -1,10 +1,9 @@
 package com.example.myuni.ui.fragment
 
+import android.app.ActionBar
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
@@ -13,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.myuni.R
 import com.example.myuni.adapter.MessageAdapter
 import com.example.myuni.databinding.FragmentChatBinding
@@ -39,9 +39,11 @@ class ChatFragment : Fragment(), View.OnClickListener, AdapterView.OnItemClickLi
     private lateinit var sender: Contacts
     private var chatType: String = ""
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false)
+
         initViewModel()
         init()
         return binding.root

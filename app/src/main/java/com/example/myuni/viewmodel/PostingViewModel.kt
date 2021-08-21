@@ -174,18 +174,6 @@ class PostingViewModel: ViewModel(){
         })
     }
 
-    fun getUserData(email: String){
-        database.getReference("userList").child(EncodeUtils.EncodeString(email)).get().addOnSuccessListener {
-            val t = object : GenericTypeIndicator<Contacts>() {}
-            var value = it.getValue(t)
 
-            println("get user data from database")
-            println("name:${value!!.name}   email:${value!!.email}")
-
-        }.addOnFailureListener {
-            Log.e("firebase", "Error getting data", it)
-        }
-
-    }
 
 }

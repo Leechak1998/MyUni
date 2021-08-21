@@ -1,11 +1,15 @@
 package com.example.myuni.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myuni.model.Goods
 import com.example.myuni.utils.EncodeUtils
+import com.example.myuni.utils.TimeUtils
 import com.example.myuni.utils.Uni
 import com.google.firebase.database.*
+import java.time.LocalDateTime
 
 class GoodsViewModel : ViewModel() {
 
@@ -60,13 +64,12 @@ class GoodsViewModel : ViewModel() {
         dbRef.updateChildren(map)
     }
 
-    fun purchaseGoods(pGoods: Goods, userEmail: String){
+    fun purchaseGoods(pGoods: Goods){
         //change goods' status
         pGoods.status = Goods.PENDING
-        pGoods.buyer = userEmail
 
         //update item from selling
-        dbRef = database.getReference("goodsList").child("buyingList").child(EncodeUtils.EncodeString(userEmail))
+        dbRef = database.getReference("goodsList").child("buyingList").child(EncodeUtils.EncodeString(pGoods.buyerEmail!!))
        // _buyingList.value = _buyingList.value?.plus(pGoods) as ArrayList<Goods>
         var map: HashMap<String, Any> = HashMap()
         map[pGoods.orderNum] = pGoods
@@ -79,12 +82,14 @@ class GoodsViewModel : ViewModel() {
         dbRef.updateChildren(map1)
     }
 
-    fun confirmGoods(pGoods: Goods, userEmail: String){
-        //change goods' status
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun confirmGoods(pGoods: Goods){
+        //change goods' status and update trading time
         pGoods.status = Goods.DELIVERY
+        pGoods.tradingTime = TimeUtils.getCurrentTime(LocalDateTime.now())
 
-        //update item from selling
-        dbRef = database.getReference("goodsList").child("buyingList").child(EncodeUtils.EncodeString(pGoods.buyer!!))
+        //update item from buying list
+        dbRef = database.getReference("goodsList").child("buyingList").child(EncodeUtils.EncodeString(pGoods.buyerEmail!!))
         // _buyingList.value = _buyingList.value?.plus(pGoods) as ArrayList<Goods>
         var map: HashMap<String, Any> = HashMap()
         map[pGoods.orderNum] = pGoods
@@ -97,6 +102,25 @@ class GoodsViewModel : ViewModel() {
         dbRef.updateChildren(map1)
     }
 
+    fun cancelOrder(orderNumber: String, good: Goods) {
+        //remove order from selling list
+        database.getReference("goodsList").child("buyingList").child(orderNumber).removeValue()
+
+        //remove buyer information of product
+        good.buyerName = ""
+        good.buyerEmail = ""
+        good.finalPrice = ""
+        good.method = ""
+        good.address = ""
+        good.status = Goods.SELLING
+
+        //update item from buying list
+        dbRef = database.getReference("goodsList").child("sellingList").child(EncodeUtils.EncodeString(good.buyerEmail!!))
+        var map: HashMap<String, Any> = HashMap()
+        map[good.orderNum] = good
+        dbRef.updateChildren(map)
+    }
+
     fun getSellingList(currentUser: String){
         _sellingList.value = ArrayList()
         dbRef = database.getReference("goodsList").child("sellingList")
@@ -105,7 +129,7 @@ class GoodsViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
                     val t = object : GenericTypeIndicator<HashMap<String, Goods>>() {}
-                    var value = snapshot.getValue(t)
+                        var value = snapshot.getValue(t)
 
                     _sellingList.value?.clear()
 
